@@ -3,6 +3,8 @@ import { Outlet, useRoutes } from "react-router-dom";
 
 import DashboardLayout from "../layout";
 import Loader from "../components/fallback-ui/Loader";
+import LoginPage from "../pages/user/LoginPage";
+import UserSignOut from "../pages/user/UserSignOut";
 
 const User = lazy(() => {
   return new Promise((reslove) => {
@@ -28,6 +30,14 @@ export default function Router() {
         { element: <div>Hello</div>, index: true },
         { path: "user", element: <User /> },
       ],
+    },
+    {
+      path: "/login",
+      element: <LoginPage />,
+    },
+    {
+      path: "slo/logout",
+      element: <UserSignOut />,
     },
   ]);
 
