@@ -10,7 +10,7 @@ const User = lazy(() => {
   return new Promise((reslove) => {
     setTimeout(() => {
       reslove(import("../pages/user"));
-    }, 100000000);
+    }, 5000);
   });
 });
 
