@@ -41,7 +41,7 @@ const Login = () => {
               autoComplete="off"
               onSubmit={formMethods.handleSubmit(onSubmit)}
               minWidth={300}
-              minHeight={200}
+              minHeight={300}
               spacing={2}
             >
               <Typography textAlign="center" variant="h4">
@@ -51,6 +51,7 @@ const Login = () => {
                 <CustomInput label="Username" name="userName" />
                 <CustomInput label="Password" name="password" />
                 <CustomButton>Login</CustomButton>
+                <Typography sx={{p:1}}>Forgot Password?</Typography>
               </FormProvider>
             </Stack>
           </Paper>

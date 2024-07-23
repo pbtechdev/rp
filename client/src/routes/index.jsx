@@ -5,10 +5,14 @@ import DashboardLayout from "../layout";
 import Loader from "../components/fallback-ui/Loader";
 import User from "../pages/user";
 import Login from "../pages/login";
+import CompanyOnboardingForm from "../pages/CompanyOnboardingForm";
+import PageNotFound from "../components/pageNotFound";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const isNewUser = (user) => {};
+
   return useRoutes([
     {
       element: (
@@ -24,8 +28,16 @@ export default function Router() {
       ],
     },
     {
+      path: "company-onboarding-form",
+      element: isNewUser ? <CompanyOnboardingForm /> : <PageNotFound />,
+    },
+    {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "*",
+      element: <PageNotFound />,
     },
   ]);
 }
