@@ -11,7 +11,6 @@ import PageNotFound from "../components/pageNotFound";
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const isNewUser = (user) => {};
 
   return useRoutes([
     {
@@ -25,12 +24,13 @@ export default function Router() {
       children: [
         { element: <div>Hello</div>, index: true },
         { path: "user", element: <User /> },
+        {
+          path: "company-onboarding-form",
+          element: <CompanyOnboardingForm /> ,
+        }
       ],
     },
-    {
-      path: "company-onboarding-form",
-      element: isNewUser ? <CompanyOnboardingForm /> : <PageNotFound />,
-    },
+    ,
     {
       path: "/login",
       element: <Login />,

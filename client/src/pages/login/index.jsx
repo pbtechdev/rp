@@ -6,7 +6,7 @@ import CustomButton from "../../components/customButton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidations } from "./validations";
 import bgImage from "../../assets/loginBgPic.jpg";
-import { getUserDetails } from "../../service/mutations";
+import { post } from "../../service";
 import { useMutation } from "@tanstack/react-query";
 import TypeWriterAnimation from "../../components/typeWriterAnimation";
 import CustomInput from "../../components/customInput";
@@ -17,9 +17,13 @@ const Login = () => {
     resolver: yupResolver(loginValidations),
   });
 
-  const { mutate } = useMutation({ mutationFn: getUserDetails });
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data) => post("/log_in", data),
+  });
 
-  const onSubmit = (data) => mutate(data);
+  const onSuccess = (res) => {};
+
+  const onSubmit = (data) => mutate(data, { onSuccess });
 
   return (
     <Box
@@ -38,7 +42,7 @@ const Login = () => {
             <Stack
               component="form"
               noValidate
-              autoComplete="off"
+              // autoComplete="off"
               onSubmit={formMethods.handleSubmit(onSubmit)}
               minWidth={300}
               minHeight={300}
@@ -50,8 +54,7 @@ const Login = () => {
               <FormProvider {...formMethods}>
                 <CustomInput label="Username" name="userName" />
                 <CustomInput label="Password" name="password" />
-                <CustomButton>Login</CustomButton>
-                <Typography sx={{p:1}}>Forgot Password?</Typography>
+                <CustomButton loading={isPending}>Login</CustomButton>
               </FormProvider>
             </Stack>
           </Paper>

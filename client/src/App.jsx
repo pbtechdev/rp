@@ -7,6 +7,16 @@ import {
   MutationCache,
 } from "@tanstack/react-query";
 import "./App.css";
+import toast, { Toaster } from "react-hot-toast";
+
+const onError = (err) => {
+  const { data, status } = err?.response ?? {};
+  if (status === 400) {
+    toast.error(data?.message);
+    return;
+  }
+  toast.error("Something went worng");
+};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,19 +25,12 @@ const queryClient = new QueryClient({
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      keepPreviousData: true,
       staleTime: 5000,
     },
   },
-  queryCache: new QueryCache({
-    onError: (err, q) => {
-      console.log(err, q, "q");
-    },
-  }),
-  mutationCache: new MutationCache({
-    onError: (err, q) => {
-      console.log(err, q, "m");
-    },
-  }),
+  queryCache: new QueryCache({ onError }),
+  mutationCache: new MutationCache({ onError }),
 });
 
 function App() {
@@ -35,6 +38,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <Router />
+        <Toaster position="bottom-right" />
       </ThemeProvider>
     </QueryClientProvider>
   );
