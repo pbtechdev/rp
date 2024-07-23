@@ -9,7 +9,7 @@ import bgImage from "../../assets/loginBgPic.jpg";
 import { getUserDetails } from "../../service/mutations";
 import { useMutation } from "@tanstack/react-query";
 import TypeWriterAnimation from "../../components/typeWriterAnimation";
-import CustomInput from "../../components/customInputs";
+import CustomInput from "../../components/customInput";
 
 const Login = () => {
   const formMethods = useForm({
@@ -19,9 +19,7 @@ const Login = () => {
 
   const { mutate } = useMutation({ mutationFn: getUserDetails });
 
-  const onSubmit = (data) => {
-    mutate(data);
-  };
+  const onSubmit = (data) => mutate(data);
 
   return (
     <Box
