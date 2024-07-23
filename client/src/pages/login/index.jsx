@@ -1,5 +1,4 @@
 import React from "react";
-import CustomInput from "../../components/customInput";
 import { FormProvider, useForm } from "react-hook-form";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import { CenteredDiv } from "../../components/centeredDiv";
@@ -10,6 +9,7 @@ import bgImage from "../../assets/loginBgPic.jpg";
 import { getUserDetails } from "../../service/mutations";
 import { useMutation } from "@tanstack/react-query";
 import TypeWriterAnimation from "../../components/typeWriterAnimation";
+import CustomInput from "../../components/customInputs";
 
 const Login = () => {
   const formMethods = useForm({
