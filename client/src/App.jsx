@@ -1,6 +1,11 @@
 import Router from "./routes";
 import ThemeProvider from "./theme";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import {
+  QueryClientProvider,
+  QueryClient,
+  QueryCache,
+  MutationCache,
+} from "@tanstack/react-query";
 import "./App.css";
 
 const queryClient = new QueryClient({
@@ -13,6 +18,16 @@ const queryClient = new QueryClient({
       staleTime: 5000,
     },
   },
+  queryCache: new QueryCache({
+    onError: (err, q) => {
+      console.log(err, q, "q");
+    },
+  }),
+  mutationCache: new MutationCache({
+    onError: (err, q) => {
+      console.log(err, q, "m");
+    },
+  }),
 });
 
 function App() {

@@ -35,7 +35,3 @@ export default function ThemeProvider({ children }) {
     </MUIThemeProvider>
   );
 }
-
-ThemeProvider.propTypes = {
-  children: PropTypes.node,
-};

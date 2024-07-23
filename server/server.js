@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { registerCompany } from './controllers/auth.js'
+import { getUser } from './controllers/login.js';
 
 /* CONFIGURATIONS */
 
@@ -39,11 +40,14 @@ const upload = multer({ storage });
 /* ROUTES WITH FILES */
 app.post('/register_company', upload.single('profilePic'), registerCompany);
 
+/* ROUTES */
+app.post('/login', getUser)
+
 /* MONGOOSE SETUP */
 
 const PORT = process.env.PORT || 8081
 
 mongoose.connect(process.env.MONGO_URL)
-.then(() => app.listen(PORT, () => console.log(`Server Running in PORT: ${PORT}`)))
-.catch((err) => console.log(err))
+    .then(() => app.listen(PORT, () => console.log(`Server Running in PORT: ${PORT}`)))
+    .catch((err) => console.log(err))
 

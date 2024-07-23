@@ -1,23 +1,15 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense } from "react";
 import { Outlet, useRoutes } from "react-router-dom";
 
 import DashboardLayout from "../layout";
 import Loader from "../components/fallback-ui/Loader";
-import LoginPage from "../pages/user/LoginPage";
-import UserSignOut from "../pages/user/UserSignOut";
-
-const User = lazy(() => {
-  return new Promise((reslove) => {
-    setTimeout(() => {
-      reslove(import("../pages/user"));
-    }, 5000);
-  });
-});
+import User from "../pages/user";
+import Login from "../pages/login";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const routes = useRoutes([
+  return useRoutes([
     {
       element: (
         <DashboardLayout>
@@ -33,13 +25,7 @@ export default function Router() {
     },
     {
       path: "/login",
-      element: <LoginPage />,
-    },
-    {
-      path: "slo/logout",
-      element: <UserSignOut />,
+      element: <Login />,
     },
   ]);
-
-  return routes;
 }

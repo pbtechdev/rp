@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import CustomInput from "../../components/CustomInput";
+import CustomInput from "../../components/customInput";
 import { FormProvider, useForm } from "react-hook-form";
 
 const User = () => {

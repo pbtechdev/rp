@@ -58,6 +58,10 @@ export function overrides(theme) {
       },
     },
     MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+        type: "submit"
+      },
       styleOverrides: {
         containedInherit: {
           color: theme.palette.common.white,
@@ -94,6 +98,11 @@ export function overrides(theme) {
       },
     },
     MuiOutlinedInput: {
+      defaultProps: {
+        fullWidth: true,
+        margin: 'dense',
+        height: 200
+      },
       styleOverrides: {
         root: {
           [`& .${outlinedInputClasses.notchedOutline}`]: {
