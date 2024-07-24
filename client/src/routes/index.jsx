@@ -7,27 +7,29 @@ import User from "../pages/user";
 import Login from "../pages/login";
 import CompanyOnboardingForm from "../pages/CompanyOnboardingForm";
 import PageNotFound from "../components/pageNotFound";
+import ProtectedRoute from "../pages/auth/ProtectedRoute";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
-
   return useRoutes([
     {
       element: (
-        <DashboardLayout>
-          <Suspense fallback={<Loader />}>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
+        <ProtectedRoute>
+          <DashboardLayout>
+            <Suspense fallback={<Loader />}>
+              <Outlet />
+            </Suspense>
+          </DashboardLayout>
+        </ProtectedRoute>
       ),
       children: [
         { element: <div>Hello</div>, index: true },
         { path: "user", element: <User /> },
         {
           path: "company-onboarding-form",
-          element: <CompanyOnboardingForm /> ,
-        }
+          element: <CompanyOnboardingForm />,
+        },
       ],
     },
     ,

@@ -28,6 +28,7 @@ const SytledButton = styled(Button)(({ loading }) => {
 });
 
 const CustomButton = ({ disabled, loading, children, ...rest }) => {
+  console.log(rest)
   return (
     <SytledButton
       {...rest}

@@ -6,10 +6,9 @@ import CustomButton from "../../components/customButton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidations } from "./validations";
 import bgImage from "../../assets/loginBgPic.jpg";
-import { post } from "../../service";
-import { useMutation } from "@tanstack/react-query";
 import TypeWriterAnimation from "../../components/typeWriterAnimation";
 import CustomInput from "../../components/customInput";
+import { useAuth } from "../auth";
 
 const Login = () => {
   const formMethods = useForm({
@@ -17,13 +16,7 @@ const Login = () => {
     resolver: yupResolver(loginValidations),
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (data) => post("/log_in", data),
-  });
-
-  const onSuccess = (res) => {};
-
-  const onSubmit = (data) => mutate(data, { onSuccess });
+  const { logIn, isPending } = useAuth();
 
   return (
     <Box
@@ -42,10 +35,9 @@ const Login = () => {
             <Stack
               component="form"
               noValidate
-              // autoComplete="off"
-              onSubmit={formMethods.handleSubmit(onSubmit)}
+              // autoComplete="off" todo:should add this back
+              onSubmit={formMethods.handleSubmit(logIn)}
               minWidth={300}
-              minHeight={300}
               spacing={2}
             >
               <Typography textAlign="center" variant="h4">

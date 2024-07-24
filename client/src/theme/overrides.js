@@ -47,6 +47,11 @@ export function overrides(theme) {
         },
       },
     },
+    MuiFormLabel: {
+      styleOverrides: {
+        asterisk: { color: "red", fontSize: "1.4rem" },
+      },
+    },
     MuiBackdrop: {
       styleOverrides: {
         root: {
@@ -97,11 +102,18 @@ export function overrides(theme) {
         },
       },
     },
+    MuiTextField: {
+      defaultProps: {
+        variant: 'outlined',
+        fullWidth: true,
+        InputLabelProps: { shrink: true },
+      },
+    },
     MuiOutlinedInput: {
       defaultProps: {
         fullWidth: true,
         margin: 'dense',
-        height: 200
+        height: 200,
       },
       styleOverrides: {
         root: {

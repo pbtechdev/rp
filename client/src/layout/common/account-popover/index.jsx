@@ -8,7 +8,8 @@ import { alpha } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import profile from "../../../assets/profile.jpeg";
+import { useAuth } from "../../../pages/auth";
+import { useNavigate } from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -16,14 +17,17 @@ const MENU_OPTIONS = [
   {
     label: "Home",
     icon: "eva:home-fill",
+    to: "/",
   },
   {
     label: "Profile",
     icon: "eva:person-fill",
+    to: "/profile",
   },
   {
     label: "Settings",
     icon: "eva:settings-2-fill",
+    to: "/settings",
   },
 ];
 
@@ -31,13 +35,21 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const { logOut, user } = useAuth();
+  const navigate = useNavigate();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (to) => {
+    navigate(to);
     setOpen(null);
+  };
+
+  const handleLogOut = () => {
+    setOpen(null);
+    logOut();
   };
 
   return (
@@ -55,22 +67,22 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={profile}
-          alt="phani"
+          src={user.role === "ADMIN" ? user.companyLogo : user.profilePic}
+          alt={user.name}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {"phani".charAt(0).toUpperCase()}
+          {user.name?.charAt(0)?.toUpperCase()}
         </Avatar>
       </IconButton>
 
       <Popover
         open={!!open}
         anchorEl={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         PaperProps={{
@@ -84,17 +96,17 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            phani
+            {user.name}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            phani@gmail.com
+            {user.email}
           </Typography>
         </Box>
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
         {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
+          <MenuItem key={option.label} onClick={() => handleClose(option.to)}>
             {option.label}
           </MenuItem>
         ))}
@@ -104,7 +116,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={handleLogOut}
           sx={{ typography: "body2", color: "error.main", py: 1.5 }}
         >
           Logout

@@ -6,7 +6,7 @@ import { bgBlur } from "../theme/css";
 
 // ----------------------------------------------------------------------
 
-const SPACING = 8;
+const SPACING = 16;
 
 export default function Main({ children, sx, ...other }) {
   const theme = useTheme();

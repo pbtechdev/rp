@@ -9,31 +9,28 @@ const CompanyOnboardingForm = () => {
   const formMethods = useForm();
   const onSubmit = () => {};
   return (
-    <>
-      <PageHeader header="Company Onboarding Form" />
-      <Paper
-        component="form"
-        autoComplete="off"
-        sx={{ p: 2 }}
-        onSubmit={formMethods.handleSubmit(onSubmit)}
-      >
-        <FormProvider {...formMethods}>
-          <Stack direction="column" spacing={2} width={"75%"} p={2}>
-            <CustomInput label="Company Name" name="companyName" required />
-            <CustomInput label="Email" name="email" required />
-            <Typography variant="v4">Reset Your Password</Typography>
-            <CustomInput label="New Password" name="newPassword" required />
-            <CustomInput
-              label="Confirm Password"
-              name="confirmPassword"
-              required
-            />
+    <Paper
+      component="form"
+      autoComplete="off"
+      sx={{ px: 2, pt: 2, pb: 4 }}
+      onSubmit={formMethods.handleSubmit(onSubmit)}
+    >
+      <FormProvider {...formMethods}>
+        <Stack direction="column" spacing={2}>
+          <Typography variant="h4">Create your company profile</Typography>
+          <CustomInput label="Company Name" name="companyName" required />
+          <CustomInput label="Email" name="email" required />
+          <CustomInput label="New Password" name="newPassword" required />
+          <CustomInput
+            label="Confirm Password"
+            name="confirmPassword"
+            required
+          />
 
-            <CustomButton>Submit</CustomButton>
-          </Stack>
-        </FormProvider>
-      </Paper>
-    </>
+          <CustomButton>Submit</CustomButton>
+        </Stack>
+      </FormProvider>
+    </Paper>
   );
 };
 
