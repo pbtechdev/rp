@@ -8,6 +8,7 @@ import Login from "../pages/login";
 import CompanyOnboardingForm from "../pages/CompanyOnboardingForm";
 import PageNotFound from "../components/pageNotFound";
 import ProtectedRoute from "../pages/auth/ProtectedRoute";
+import ProfileCreationPage from "../pages/ProfileCreationPage";
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,10 @@ export default function Router() {
         {
           path: "company-onboarding-form",
           element: <CompanyOnboardingForm />,
+        },
+        {
+          path: "profile-creation-page",
+          element: <ProfileCreationPage />,
         },
       ],
     },

@@ -103,7 +103,7 @@ export default function AccountPopover() {
           </Typography>
         </Box>
 
-        <Divider sx={{ borderStyle: "dashed" }} />
+        <Divider sx={{ borderStyle: "solid" }} />
 
         {MENU_OPTIONS.map((option) => (
           <MenuItem key={option.label} onClick={() => handleClose(option.to)}>
@@ -111,13 +111,13 @@ export default function AccountPopover() {
           </MenuItem>
         ))}
 
-        <Divider sx={{ borderStyle: "dashed", m: 0 }} />
+        <Divider sx={{ borderStyle: "solid", m: 0 }} />
 
         <MenuItem
           disableRipple
           disableTouchRipple
           onClick={handleLogOut}
-          sx={{ typography: "body2", color: "error.main", py: 1.5 }}
+          sx={{ typography: "body2", color: "error.darker", py: 1.5 }}
         >
           Logout
         </MenuItem>

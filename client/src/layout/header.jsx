@@ -49,7 +49,7 @@ export default function Header({ onOpenNav }) {
           width: `calc(100% - ${NAV.WIDTH + 1}px)`,
           height: HEADER.H_DESKTOP,
         }),
-        borderBottom: (theme) => `dashed 1px ${theme.palette.divider}`,
+        borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
       }}
     >
       <Toolbar
