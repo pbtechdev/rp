@@ -1,16 +1,22 @@
-import { Paper, Stack, Typography } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 import PageHeader from "../../components/pageHeader";
 import { FormProvider, useForm } from "react-hook-form";
 import CustomInput from "../../components/customInput";
 import CustomButton from "../../components/customButton";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { onboardingValidations } from "./validations";
 
 const CompanyOnboardingForm = () => {
-  const formMethods = useForm();
-  const onSubmit = () => {};
+  const formMethods = useForm({
+    defaultValues: { companyName: "", newPassword: "", confirmPassword: "" },
+    resolver: yupResolver(onboardingValidations),
+  });
+  const onSubmit = (data) => {console.log(data)};
   return (
     <Paper
       component="form"
+      noValidate
       autoComplete="off"
       sx={{ px: 2, pt: 2, pb: 4 }}
       onSubmit={formMethods.handleSubmit(onSubmit)}
@@ -26,8 +32,11 @@ const CompanyOnboardingForm = () => {
             name="confirmPassword"
             required
           />
-
-          <CustomButton>Submit</CustomButton>
+          <Box
+            sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}
+          >
+            <CustomButton>Submit</CustomButton>
+          </Box>
         </Stack>
       </FormProvider>
     </Paper>
