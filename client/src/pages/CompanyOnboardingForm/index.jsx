@@ -1,6 +1,5 @@
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
-import PageHeader from "../../components/pageHeader";
 import { FormProvider, useForm } from "react-hook-form";
 import CustomInput from "../../components/customInput";
 import CustomButton from "../../components/customButton";
@@ -25,6 +24,9 @@ const CompanyOnboardingForm = () => {
         <Stack direction="column" spacing={2}>
           <Typography variant="h4">Create your company profile</Typography>
           <CustomInput label="Company Name" name="companyName" required />
+          <Box height={200} width={200}>
+            <FileUploader name="companyLogo" />
+          </Box>
           <CustomInput label="Email" name="email" required />
           <CustomInput label="New Password" name="newPassword" required />
           <CustomInput

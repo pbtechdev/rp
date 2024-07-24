@@ -8,18 +8,6 @@ const axiosInstance = axios.create({
     }
 })
 
-export const get = async (endPoint) => {
-    try {
-        return await axiosInstance.get(endPoint);
-    } catch (error) {
-        return error
-    }
-}
+export const get = async (endPoint) => await axiosInstance.get(endPoint);
 
-export const post = async (endPoint, payload) => {
-    // try {
-    return await axiosInstance.post(endPoint, payload);
-    // } catch (error) {
-    //     return error.response
-    // }
-}
+export const post = async (endPoint, payload) => await axiosInstance.post(endPoint, payload);
