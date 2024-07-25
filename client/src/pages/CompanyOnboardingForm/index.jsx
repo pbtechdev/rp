@@ -5,13 +5,17 @@ import CustomInput from "../../components/customInput";
 import CustomButton from "../../components/customButton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { onboardingValidations } from "./validations";
+import FileUploader from "../../components/fileUploader";
 
 const CompanyOnboardingForm = () => {
   const formMethods = useForm({
     defaultValues: { companyName: "", newPassword: "", confirmPassword: "" },
     resolver: yupResolver(onboardingValidations),
   });
-  const onSubmit = (data) => {console.log(data)};
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <Paper
       component="form"
@@ -24,9 +28,13 @@ const CompanyOnboardingForm = () => {
         <Stack direction="column" spacing={2}>
           <Typography variant="h4">Create your company profile</Typography>
           <CustomInput label="Company Name" name="companyName" required />
-          <Box height={200} width={200}>
-            <FileUploader name="companyLogo" />
-          </Box>
+          <FileUploader
+            height={200}
+            width={200}
+            maxSize={10000}
+            accept={[".png", ".jpg", ".jpeg"]}
+            name="companyLogo"
+          />
           <CustomInput label="Email" name="email" required />
           <CustomInput label="New Password" name="newPassword" required />
           <CustomInput

@@ -1,8 +1,19 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
-import { Box, Typography, styled } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Typography,
+  styled,
+} from "@mui/material";
 import ImageComponent from "../../components/imageComponent";
+import { kbToMb, bToMb, getFileExtention } from "./utils";
+import { useMutation } from "@tanstack/react-query";
+import { post } from "../../service";
+import { useAuth } from "../../pages/auth";
+import Iconify from "../iconify";
 
 const StyledBox = styled(Box)(({ theme, disabled, error }) => ({
   pointerEvents: disabled ? "none" : "all",
@@ -29,37 +40,119 @@ const StyledBox = styled(Box)(({ theme, disabled, error }) => ({
   },
 }));
 
-const FileUploader = ({ name, disabled, accept, control: controlProp }) => {
+const FileUploader = ({
+  name,
+  disabled,
+  accept,
+  maxsize,
+  height,
+  width,
+  control: controlProp,
+}) => {
   const { control } = useFormContext();
   return (
     <Controller
       name={name}
       disabled={disabled}
       control={controlProp ? controlProp : control}
-      render={({ field: { value, onBlur, onChange, ref }, fieldState }) => {
-        return (
-          <ControlledUploader
-            accept={accept}
-            fieldState={fieldState}
-            value={value}
-            onBlur={onBlur}
-            disabled={disabled}
-            onChange={onChange}
-            ref={ref}
-          />
-        );
-      }}
+      render={({ field, fieldState }) => (
+        <ControlledUploader
+          height={height}
+          width={width}
+          {...field}
+          {...fieldState}
+          accept={accept}
+          maxsize={maxsize}
+        />
+      )}
     />
   );
 };
 
 const ControlledUploader = forwardRef(
-  ({ fieldState, value, onBlur, onChange, disabled, accept }, ref) => {
-    const onDrop = () => {};
-    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
-      multiple: false,
-      onDrop,
+  (
+    {
+      error,
+      value,
+      onBlur,
+      onChange,
+      disabled,
       accept,
+      name,
+      maxsize,
+      height,
+      width,
+    },
+    ref
+  ) => {
+    console.log(value,'value')
+    const { user } = useAuth();
+    const { mutate } = useMutation({
+      mutationFn: (data) => post("/upload-image", data),
+    });
+    const [showIcons, setShowIcons] = useState(false);
+    const [progress, setProgress] = useState(false);
+    const { setError, setValue } = useFormContext();
+
+    const uploadImage = (file, callback) => {
+      setProgress(true);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        callback(reader.result);
+      };
+      reader.onerror = (err) => {
+        console.log("Error: ", err);
+      };
+    };
+
+    const onDrop = async (droppedFiles) => {
+      if (bToMb(droppedFiles[0].size) >= kbToMb(maxsize)) {
+        return setError(name, {
+          type: "custom",
+          message: `Maximum image size allowed ${Math.round(
+            kbToMb(maxsize)
+          )}mb`,
+        });
+      }
+
+      if (!accept.includes(getFileExtention(droppedFiles[0].name))) {
+        return setError(name, {
+          type: "custom",
+          message: `Allowed image types ${accept}`,
+        });
+      }
+
+      const submitDataBackend = (base64Image) => {
+        const payload = {
+          image: base64Image,
+          imageName: droppedFiles[0].name?.split(".").shift(),
+          userId: user._id,
+        };
+
+        mutate(payload, {
+          onSuccess: (response) => {
+            const { imageUrl } = response.data ?? {};
+            onChange(imageUrl);
+          },
+          onError: (_err) => {
+            setError(name, {
+              type: "custom",
+              message: "Image failed to upload",
+            });
+          },
+          onSettled: () => {
+            setProgress(false);
+          },
+        });
+      };
+      uploadImage(droppedFiles[0], submitDataBackend);
+    };
+
+    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+      onDrop,
+      accept: { "image/*": accept },
+      multiple: false,
     });
 
     const renderLabel = (
@@ -70,26 +163,76 @@ const ControlledUploader = forwardRef(
       </Typography>
     );
 
-    const renderImage = <ImageComponent src={value} alt="companyLogo" />;
+    const renderImage = () => {
+      if (progress) {
+        return <CircularProgress />;
+      }
+      return (
+        <Box className="imageWrapper">
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "120px",
+              height: "120px",
+            }}
+            onMouseEnter={() => setShowIcons(true)}
+            onMouseLeave={() => setShowIcons(false)}
+          >
+            <ImageComponent src={value} alt="companyLogo" />;
+            {showIcons && (
+              <Box className="imageActionWrapper">
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    open();
+                  }}
+                  sx={{ backgroundColor: "white" }}
+                >
+                  <Iconify icon="mingcute:home-7-fill" />
+                </IconButton>
+                <IconButton
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setValue(name, "", {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    });
+                  }}
+                  sx={{ backgroundColor: "white" }}
+                >
+                  <Iconify icon="mingcute:home-7-fill" />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
+        </Box>
+      );
+    };
+
     return (
       <>
-        <StyledBox
-          error={!!fieldState.error}
-          disabled={disabled}
-          {...getRootProps()}
-        >
-          <input ref={ref} onBlur={onBlur} {...getInputProps()} />
-          <Box className="contentWrapper">
-            {value ? renderImage : renderLabel}
-          </Box>
-        </StyledBox>
-        {!!true && (
-          <Box>
-            <Typography color="error.main" variant="caption">
-              lld
-              {fieldState.error?.message}
-            </Typography>
-          </Box>
+        <Box height={height} width={width}>
+          <StyledBox error={!!error} disabled={disabled} {...getRootProps()}>
+            <input ref={ref} onBlur={onBlur} {...getInputProps()} />
+            <Box className="contentWrapper">
+              {value ? renderImage() : renderLabel}
+            </Box>
+          </StyledBox>
+        </Box>
+        {!!error && (
+          <Typography
+            sx={{
+              lineHeight: "0px",
+              variant: "block",
+              margin: "-4px 14px 10px 14px",
+              color: "error.main",
+            }}
+            variant="caption"
+          >
+            {error?.message}
+          </Typography>
         )}
       </>
     );

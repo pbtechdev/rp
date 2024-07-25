@@ -9,6 +9,7 @@ export const onboardingValidations = yup.object().shape({
       6,
       "Password should contain 1 uppercase,1 lowercase, one number,at least a special character"
     ),
+  companyLogo: yup.string().required("Company logo is required"),
   confirmPassword: yup
     .string()
     .required("Confirm Password is required")

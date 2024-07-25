@@ -6,7 +6,8 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { registerCompany, login } from './controllers/auth.js'
+import { registerCompany, login } from './controllers/auth.js';
+import { uploadImage } from './controllers/upload.js'
 
 /* CONFIGURATIONS */
 
@@ -40,7 +41,8 @@ const upload = multer({ storage });
 app.post('/register_company', upload.single('profilePic'), registerCompany);
 
 /* ROUTES */
-app.post('/log_in', login)
+app.post('/log_in', login);
+app.post('/upload-image', uploadImage)
 
 /* MONGOOSE SETUP */
 

@@ -16,17 +16,14 @@ import { useNavigate } from "react-router-dom";
 const MENU_OPTIONS = [
   {
     label: "Home",
-    icon: "eva:home-fill",
     to: "/",
   },
   {
     label: "Profile",
-    icon: "eva:person-fill",
     to: "/profile",
   },
   {
     label: "Settings",
-    icon: "eva:settings-2-fill",
     to: "/settings",
   },
 ];
