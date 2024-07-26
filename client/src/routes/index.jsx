@@ -9,6 +9,7 @@ import CompanyOnboardingForm from "../pages/CompanyOnboardingForm";
 import PageNotFound from "../components/pageNotFound";
 import ProtectedRoute from "../pages/auth/ProtectedRoute";
 import ProfileCreationPage from "../pages/ProfileCreationPage";
+import AllEmployees from "../pages/AllEmployees";
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +35,10 @@ export default function Router() {
         {
           path: "profile-creation-page",
           element: <ProfileCreationPage />,
+        },
+        {
+          path: "all-employees-list",
+          element: <AllEmployees />,
         },
       ],
     },
