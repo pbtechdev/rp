@@ -3,7 +3,7 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 
 import Nav from "./nav";
-import Main from "./main-content";
+import Main from "./main";
 import Header from "./header";
 
 // ----------------------------------------------------------------------
