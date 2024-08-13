@@ -8,7 +8,7 @@ import { alpha } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import { useAuth } from "../../../pages/auth";
+import { useAuth } from "../../../components/auth";
 import { useNavigate } from "react-router-dom";
 
 // ----------------------------------------------------------------------

@@ -12,7 +12,7 @@ import ImageComponent from "../../components/imageComponent";
 import { kbToMb, bToMb, getFileExtention } from "./utils";
 import { useMutation } from "@tanstack/react-query";
 import { post } from "../../service";
-import { useAuth } from "../../pages/auth";
+import { useAuth } from "../auth";
 import Iconify from "../iconify";
 
 const StyledBox = styled(Box)(({ theme, disabled, error }) => ({
@@ -85,7 +85,7 @@ const ControlledUploader = forwardRef(
     },
     ref
   ) => {
-    console.log(value,'value')
+    console.log(value, "value");
     const { user } = useAuth();
     const { mutate } = useMutation({
       mutationFn: (data) => post("/upload-image", data),

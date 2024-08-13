@@ -1,11 +1,11 @@
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import CustomInput from "../../components/customInput";
-import CustomButton from "../../components/customButton";
+import CustomInput from "../../../components/customInput";
+import CustomButton from "../../../components/customButton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { onboardingValidations } from "./validations";
-import FileUploader from "../../components/fileUploader";
+import FileUploader from "../../../components/fileUploader";
 
 const CompanyOnboardingForm = () => {
   const formMethods = useForm({

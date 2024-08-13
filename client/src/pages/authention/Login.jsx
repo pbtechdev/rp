@@ -8,7 +8,7 @@ import { loginValidations } from "./validations";
 import bgImage from "../../assets/loginBgPic.jpg";
 import TypeWriterAnimation from "../../components/typeWriterAnimation";
 import CustomInput from "../../components/customInput";
-import { useAuth } from "../auth";
+import { useAuth } from "../../components/auth";
 
 const Login = () => {
   const formMethods = useForm({
