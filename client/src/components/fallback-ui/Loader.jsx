@@ -1,7 +1,7 @@
-import { Box, Card, CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import React from "react";
 
-const Spinner = () => {
+export const Loader = () => {
   return (
     <Box
       sx={{
@@ -16,5 +16,3 @@ const Spinner = () => {
     </Box>
   );
 };
-
-export default Spinner;

@@ -1,7 +1,7 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Box, Paper, Stack, Typography } from "@mui/material";
-import { CenteredDiv } from "../../components/centeredDiv";
+import { CenteredDiv } from "../../components/styledComponents";
 import CustomButton from "../../components/customButton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidations } from "./validations";

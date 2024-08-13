@@ -2,16 +2,14 @@ import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Drawer from "@mui/material/Drawer";
-import { alpha } from "@mui/material/styles";
+import { alpha, useTheme } from "@mui/material/styles";
 import ListItemButton from "@mui/material/ListItemButton";
 import { usePathname } from "../hooks/use-pathname";
 import { useResponsive } from "../hooks/use-responsive";
 import Logo from "../components/logo";
 import Scrollbar from "../components/scrollbar";
-import { useTheme } from "@mui/material/styles";
 import { NAV } from "./config-layout";
 import navConfig from "./config-navigation";
-import { bgBlur } from "../theme/css";
 import RouterLink from "../components/router-link";
 import { Divider } from "@mui/material";
 
@@ -19,7 +17,7 @@ import { Divider } from "@mui/material";
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
-  const theme = useTheme();
+  const { palette } = useTheme();
 
   const upLg = useResponsive("up", "lg");
 
@@ -61,9 +59,7 @@ export default function Nav({ openNav, onCloseNav }) {
       sx={{
         flexShrink: { lg: 0 },
         width: { lg: NAV.WIDTH },
-        ...bgBlur({
-          color: theme.palette.common.white,
-        }),
+        backgroundColor: alpha(palette.common.white, 0.8),
       }}
     >
       {upLg ? (

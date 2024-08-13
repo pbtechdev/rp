@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { Outlet, useRoutes } from "react-router-dom";
 
 import DashboardLayout from "../layout";
-import Loader from "../components/fallback-ui/Loader";
+import { Loader } from "../components/fallback-ui";
 import User from "../pages/user";
 import Login from "../pages/login";
 import CompanyOnboardingForm from "../pages/CompanyOnboardingForm";
@@ -13,20 +13,20 @@ import AllEmployees from "../pages/AllEmployees";
 
 // ----------------------------------------------------------------------
 
-export default function Router() {
+const Router = () => {
   return useRoutes([
     {
       element: (
-        <ProtectedRoute>
-          <DashboardLayout>
-            <Suspense fallback={<Loader />}>
-              <Outlet />
-            </Suspense>
-          </DashboardLayout>
-        </ProtectedRoute>
+        // <ProtectedRoute>
+        <DashboardLayout>
+          <Suspense fallback={<Loader />}>
+            <Outlet />
+          </Suspense>
+        </DashboardLayout>
+        // </ProtectedRoute>
       ),
       children: [
-        { element: <div>Hello</div>, index: true },
+        { element: <div style={{height:'900px'}}>Hello</div>, index: true },
         { path: "user", element: <User /> },
         {
           path: "company-onboarding-form",
@@ -42,7 +42,6 @@ export default function Router() {
         },
       ],
     },
-    ,
     {
       path: "/login",
       element: <Login />,
@@ -52,4 +51,6 @@ export default function Router() {
       element: <PageNotFound />,
     },
   ]);
-}
+};
+
+export default Router;
