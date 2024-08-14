@@ -20,23 +20,28 @@ const StyledBox = styled(Box)(({ theme, disabled, error }) => ({
   opacity: disabled ? 0.5 : 1,
   width: "100%",
   height: "100%",
-  borderRadius: "6px",
+  borderRadius: "50%",
   padding: 6,
-  border: "1px solid",
-  borderColor: error ? theme.palette.error.main : theme.palette.grey[300],
+  border: "2px solid",
+  borderColor: error ? theme.palette.error.main : theme.palette.grey[500],
+  transition: "box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out",
   ":hover": {
-    borderColor: error ? theme.palette.error.dark : theme.palette.grey[700],
+    borderColor: error ? theme.palette.error.dark : theme.palette.primary.main,
+  },
+  "&:focus-within": {
+    borderColor: theme.palette.primary.lighter,
   },
   "& .contentWrapper": {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-    borderRadius: "3px",
     height: "100%",
     width: "100%",
+    borderRadius: "50%",
     border: `1px dashed ${theme.palette.grey[300]}`,
     padding: "5px",
+    position: "relative",
   },
 }));
 
