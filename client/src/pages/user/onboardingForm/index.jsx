@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { onboardingValidations } from "./validations";
 import FileUploader from "../../../components/fileUploader";
 import { Icon } from "@iconify/react";
+import { FormSubHeader } from "../../../components/formSubHeader";
 
 const CompanyOnboardingForm = () => {
   const [logoUploaded, setLogoUploaded] = useState(false);
@@ -34,7 +35,16 @@ const CompanyOnboardingForm = () => {
       <Box sx={{ p: 3 }}>
         <Stack direction="row" spacing={2} position="relative">
           <Paper variant="outlined" sx={{ maxHeight: "50vh", p: 2 }}>
-            <Box sx={{ position: "relative", width: 200, height: 200,display:'flex',justifyContent:'center',alignItems:'center' }}>
+            <Box
+              sx={{
+                position: "relative",
+                width: 200,
+                height: 200,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <FileUploader
                 height={180}
                 width={180}
@@ -45,25 +55,27 @@ const CompanyOnboardingForm = () => {
               />
               {logoUploaded && (
                 <Icon
-                  icon="lets-icons:camera-fill"
-                  fontSize={24}
-                  sx={{
-                    // position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    top: -10,
-                    left: -8,
-                    // backgroundColor: 'white',
-                    // borderRadius: '50%',
-                    // padding: 2,
+                  icon="fluent-emoji-flat:camera"
+                  fontSize={40}
+                  style={{
+                    position: "absolute",
+                    bottom: 30,
+                    right: 12,
+                    backgroundColor: "#ffffff",
+                    borderRadius: "50%",
+                    padding: "1px",
+                    border: "0.2px solid grey",
                   }}
+                  onClick={() =>
+                    document.querySelector(`input[name="companyLogo"]`).click()
+                  }
                 />
               )}
             </Box>
             <Stack
               spacing={2}
               direction="row"
-              sx={{ mt: 2, justifyContent: "center" }}
+              sx={{ m: 2, justifyContent: "center" }}
             >
               <Icon icon="devicon:linkedin" fontSize={24} />
               <Icon icon="devicon:facebook" fontSize={24} />
@@ -79,8 +91,8 @@ const CompanyOnboardingForm = () => {
             sx={{ px: 2, pt: 2, pb: 4, flexGrow: 1 }}
             onSubmit={formMethods.handleSubmit(onSubmit)}
           >
-            <Stack direction="column" spacing={2}>
-              <Typography variant="h4">Company Information</Typography>
+            <Stack direction="column" spacing={2} p={3}>
+              <FormSubHeader label="Company Information" />
               <Stack direction="row" spacing={2}>
                 <CustomInput label="Company Name" name="companyName" required />
                 <CustomInput label="Email" name="email" required />
@@ -120,8 +132,7 @@ const CompanyOnboardingForm = () => {
                   required
                 />
               </Stack>
-              <Divider />
-              <Typography variant="h6">Address</Typography>
+              <FormSubHeader label="Address" />
               <Stack spacing={2}>
                 <CustomInput
                   label="Address Line1"
@@ -138,6 +149,15 @@ const CompanyOnboardingForm = () => {
                 <CustomInput label="Country" name="country" fullWidth />
                 <CustomInput label="State" name="state" fullWidth />
               </Stack>
+              <FormSubHeader label="Social Media Links" />
+              <Stack spacing={2} direction="row">
+                <CustomInput label="LinkedIn" name="linkedIn" fullWidth />
+                <CustomInput label="Facebook" name="facebook" fullWidth />
+              </Stack>
+              <Stack spacing={2} direction="row">
+                <CustomInput label="Twitter" name="twitter" fullWidth />
+                <CustomInput label="Others" name="other" fullWidth />
+              </Stack>
               <Box
                 sx={{
                   display: "flex",
@@ -145,7 +165,7 @@ const CompanyOnboardingForm = () => {
                   flexGrow: 1,
                 }}
               >
-                <CustomButton>Submit</CustomButton>
+                <CustomButton>Create</CustomButton>
               </Box>
             </Stack>
           </Paper>

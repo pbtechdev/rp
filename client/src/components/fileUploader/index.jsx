@@ -13,7 +13,7 @@ import { kbToMb, bToMb, getFileExtention } from "./utils";
 import { useMutation } from "@tanstack/react-query";
 import { post } from "../../service";
 import { useAuth } from "../auth";
-import Iconify from "../iconify";
+import bgProfilePic from "../../assets/bgProfilePic.jpg";
 
 const StyledBox = styled(Box)(({ theme, disabled, error }) => ({
   pointerEvents: disabled ? "none" : "all",
@@ -39,9 +39,13 @@ const StyledBox = styled(Box)(({ theme, disabled, error }) => ({
     height: "100%",
     width: "100%",
     borderRadius: "50%",
-    border: `1px dashed ${theme.palette.grey[300]}`,
-    padding: "5px",
     position: "relative",
+  },
+}));
+
+const ImageStyledBox = styled(Box)(() => ({
+  "& .imageWrapper": {
+    mixBlendMode: "multiply",
   },
 }));
 
@@ -90,7 +94,6 @@ const ControlledUploader = forwardRef(
     },
     ref
   ) => {
-    console.log(value, "value");
     const { user } = useAuth();
     const { mutate } = useMutation({
       mutationFn: (data) => post("/upload-image", data),
@@ -154,18 +157,20 @@ const ControlledUploader = forwardRef(
       uploadImage(droppedFiles[0], submitDataBackend);
     };
 
-    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+    const { getRootProps, getInputProps, open } = useDropzone({
       onDrop,
       accept: { "image/*": accept },
       multiple: false,
     });
 
     const renderLabel = (
-      <Typography textAlign="center" color="grey.400" variant="h6">
-        {isDragActive
-          ? "Drop here"
-          : "Drag 'n' drop some files here, or click to select files"}
-      </Typography>
+      <ImageStyledBox>
+        <ImageComponent
+          className="imageWrapper"
+          src={bgProfilePic}
+          alt="Profile Pic"
+        />
+      </ImageStyledBox>
     );
 
     const renderImage = () => {
@@ -185,7 +190,7 @@ const ControlledUploader = forwardRef(
             onMouseEnter={() => setShowIcons(true)}
             onMouseLeave={() => setShowIcons(false)}
           >
-            <ImageComponent src={value} alt="companyLogo" />;
+            <ImageComponent src={value} alt="companyLogo" />
             {showIcons && (
               <Box className="imageActionWrapper">
                 <IconButton
@@ -205,7 +210,7 @@ const ControlledUploader = forwardRef(
                       shouldDirty: true,
                     });
                   }}
-                  sx={{ backgroundColor: "white" }}
+                  sx={{ backgroundColor: "#374fc8" }}
                 >
                   <Iconify icon="mingcute:home-7-fill" />
                 </IconButton>
