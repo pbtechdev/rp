@@ -1,13 +1,18 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
-import { Box, CircularProgress, IconButton, styled } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  styled,
+  useTheme,
+} from "@mui/material";
 import ImageComponent from "../../components/imageComponent";
 import { kbToMb, bToMb, getFileExtention } from "./utils";
 import { useMutation } from "@tanstack/react-query";
 import { postImage } from "../../service";
 import { useAuth } from "../auth";
-import bgProfilePic from "../../assets/bgProfilePic.jpg";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 
@@ -35,10 +40,16 @@ const StyledBox = styled(Box)(({ theme, disabled, error }) => ({
   },
 }));
 
-const ImageStyledBox = styled(Box)(() => ({
+const ImageStyledBox = styled(Box)(({ theme }) => ({
   height: "100%",
   width: "100%",
   overflow: "hidden",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "12px",
+  border: `1px dashed ${theme.palette.grey[300]}`,
+  borderRadius: "50%",
   "& .imageWrapper": {
     mixBlendMode: "multiply",
   },
@@ -92,6 +103,7 @@ const ControlledUploader = forwardRef(
     const { mutate, isPending } = useMutation({
       mutationFn: (data) => postImage("/upload_image", data),
     });
+    const { palette } = useTheme();
 
     const onDrop = async (droppedFiles) => {
       if (bToMb(droppedFiles[0].size) >= kbToMb(maxsize)) {
@@ -129,11 +141,19 @@ const ControlledUploader = forwardRef(
     const renderImage = (imageValue) => {
       return (
         <ImageStyledBox>
-          <ImageComponent
-            className="imageWrapper"
-            src={imageValue ? imageValue : bgProfilePic}
-            alt="Profile Pic"
-          />
+          {imageValue ? (
+            <ImageComponent
+              className="imageWrapper"
+              src={imageValue}
+              alt="Profile Pic"
+            />
+          ) : (
+            <Icon
+              style={{ color: palette.grey[300] }}
+              fontSize={600}
+              icon="et:profile-male"
+            />
+          )}
         </ImageStyledBox>
       );
     };

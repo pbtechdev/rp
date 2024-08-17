@@ -8,6 +8,7 @@ import { onboardingValidations } from "./validations";
 import FileUploader from "../../../components/fileUploader";
 import { FormSubHeader } from "../../../components/formSubHeader";
 import SocialLinks from "./socialLinks";
+import Stats from "./Stats";
 
 const CompanyOnboardingForm = () => {
   const formMethods = useForm({
@@ -52,6 +53,7 @@ const CompanyOnboardingForm = () => {
               name="companyLogo"
             />
             <SocialLinks />
+            <Stats />
           </Paper>
           <Paper
             variant="outlined"
