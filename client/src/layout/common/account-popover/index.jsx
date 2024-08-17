@@ -64,15 +64,15 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={user.role === "ADMIN" ? user.companyLogo : user.profilePic}
-          alt={user.name}
+          src={user?.role === "ADMIN" ? user?.companyLogo : user?.profilePic}
+          alt={user?.name}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {user.name?.charAt(0)?.toUpperCase()}
+          {user?.name?.charAt(0)?.toUpperCase()}
         </Avatar>
       </IconButton>
 
@@ -93,10 +93,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {user.name}
+            {user?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {user.email}
+            {user?.email}
           </Typography>
         </Box>
 

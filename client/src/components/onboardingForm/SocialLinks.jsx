@@ -16,9 +16,6 @@ const SocialLinks = () => {
       <a target="_blank" href={formValue.twitter}>
         <Icon icon="skill-icons:twitter" fontSize={24} />
       </a>
-      <a target="_blank" href={formValue.googleMap}>
-        <Icon icon="logos:google-maps" fontSize={24} />
-      </a>
     </Stack>
   );
 };

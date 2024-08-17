@@ -5,9 +5,11 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { registerCompany, login } from './controllers/auth.js';
-import { uploadImage } from './controllers/upload.js'
-import { errorHandler } from './middlewares/errorHandler.mw.js'
+import { registerCompany } from './controllers/register_company.js';
+import { login } from './controllers/login.js';
+import { getCompany } from './controllers/get_company.js';
+import { uploadImage } from './controllers/upload.js';
+import { errorHandler } from './middlewares/error_handler.mw.js';
 import { upload } from './middlewares/upload_image.mw.js';
 
 /* CONFIGURATIONS */
@@ -30,8 +32,10 @@ app.post('/upload_image', upload.single('image'), uploadImage)
 
 
 /* ROUTES */
+app.get('/get_company/:id', getCompany);
 app.post('/log_in', login);
 app.post('/register_company', registerCompany);
+
 
 /* ERROR HANDLING */
 

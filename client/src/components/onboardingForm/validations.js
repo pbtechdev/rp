@@ -19,29 +19,17 @@ export const onboardingValidations = yup.object().shape({
     .oneOf([yup.ref("newPassword"), null], "Passwords must match")
     .required("Confirm Password is required"),
   companyLogo: yup.mixed().required("Company logo is required"),
-  role: yup.string().required("Role is required"),
   mobileNumber: yup
     .string()
     .matches(/^[0-9]+$/, "Mobile Number must be digits only")
     .required("Mobile Number is required"),
-  addressLine1: yup.string().required("Address Line 1 is required"),
-  addressLine2: yup.string(),
-  country: yup.string().required("Country is required"),
-  state: yup.string().required("State is required"),
   linkedIn: yup
     .string()
-    .url("Must be a valid URL")
-    .required("LinkedIn link is required"),
+    .url("Must be a valid URL"),
   facebook: yup
     .string()
-    .url("Must be a valid URL")
-    .required("Facebook link is required"),
+    .url("Must be a valid URL"),
   twitter: yup
     .string()
-    .url("Must be a valid URL")
-    .required("Twitter link is required"),
-  googleMap: yup
-    .string()
-    .url("Must be a valid URL")
-    .required("Google Map location is required"),
+    .url("Must be a valid URL"),
 });

@@ -31,6 +31,7 @@ const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     localStorage.clear();
+    navigage("/login");
   };
 
   return (

@@ -1,15 +1,17 @@
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import RouterLink from "../router-link";
-import companyLogo from "../../assets/logo.png";
+import { useAuth } from "../auth";
 
 // ----------------------------------------------------------------------
 
 const Logo = ({ disabledLink = false, sx }) => {
+  const { user } = useAuth();
   const logo = (
     <Box
       component="img"
-      src={companyLogo}
+      loading="lazy"
+      src={user?.companyLogo}
       sx={{ maxHeight: 60, cursor: "pointer", ...sx }}
     />
   );

@@ -4,9 +4,10 @@ import { Outlet, useRoutes } from "react-router-dom";
 import DashboardLayout from "../layout";
 import { Loader } from "../components/fallbackUi";
 import Login from "../pages/authention/Login";
-import OnboardingForm from "../pages/user/onboardingForm";
+import RegisterCompany from "../pages/user/registerCompany";
 import PageNotFound from "../components/pageNotFound";
-import ProtectedRoute from "../components/auth";
+import AuthProvider from "../components/auth";
+import CompanyProfile from "../pages/user/companyProfile";
 
 // ----------------------------------------------------------------------
 
@@ -14,19 +15,23 @@ const Router = () => {
   return useRoutes([
     {
       element: (
-        <ProtectedRoute>
+        <AuthProvider>
           <DashboardLayout>
             <Suspense fallback={<Loader />}>
               <Outlet />
             </Suspense>
           </DashboardLayout>
-        </ProtectedRoute>
+        </AuthProvider>
       ),
       children: [
         { element: <div style={{ height: "900px" }}>Hello</div>, index: true },
         {
           path: "company-onboarding-form",
-          element: <OnboardingForm />,
+          element: <RegisterCompany />,
+        },
+        {
+          path: "company-profile/:id",
+          element: <CompanyProfile />,
         },
       ],
     },

@@ -9,13 +9,13 @@ const CompanySchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
         min: 2,
         unique: true
     },
-    role: {
+    contactNubmer: {
         type: String,
-        default: 'OWNER',
+        min: 2,
+        max: 20
     },
     password: {
         type: String,
@@ -23,14 +23,30 @@ const CompanySchema = new mongoose.Schema({
         min: 2,
         max: 50
     },
-    profilePic: {
+    linkedIn: {
         type: String,
         default: ""
     },
+    facebook: {
+        type: String,
+        default: ""
+    },
+    twitter: {
+        type: String,
+        default: ""
+    },
+    role: {
+        type: String,
+        default: 'OWNER',
+    },
     companyLogo: {
         type: String,
-        default: ""//todo: need to create a one logo here saying that your logo;
+        default: ""
     },
+    employeesCount: {
+        type: Number,
+        default: 0
+    }
 }, { timestamps: true })
 
 const Company = mongoose.model("Company", CompanySchema)
