@@ -12,21 +12,31 @@ const CompanyProfile = () => {
     queryFn: () => get(`/get_company/${id}`),
   });
 
-  const { email, name, twitter, facebook, linkedIn, contactNubmer } =
-    data?.data ?? {};
+  const {
+    email,
+    name,
+    twitter,
+    facebook,
+    linkedIn,
+    contactNubmer,
+    companyLogo,
+  } = data?.data ?? {};
 
   const defaultValues = {
-    email: email,
-    twitter: twitter,
-    linkedIn: linkedIn,
-    facebook: facebook,
+    companyLogo: companyLogo ?? "",
+    email: email ?? "",
+    twitter: twitter ?? "",
+    linkedIn: linkedIn ?? "",
+    facebook: facebook ?? "",
     companyName: name,
     newPassword: "",
-    contactNubmer: contactNubmer,
+    contactNubmer: contactNubmer ?? "",
     confirmPassword: "",
   };
 
-  const onSubmit = (formData) => {};
+  const onSubmit = (formData) => {
+    console.log(formData)
+  };
   return <OnboardingForm defaultValues={defaultValues} onSubmit={onSubmit} />;
 };
 

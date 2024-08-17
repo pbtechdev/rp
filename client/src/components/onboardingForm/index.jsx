@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Paper, Stack } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import CustomInput from "../customInput";
@@ -11,11 +11,18 @@ import SocialLinks from "./SocialLinks";
 import Stats from "./Stats";
 
 const OnboardingForm = ({ isPending, defaultValues, onSubmit }) => {
-
   const formMethods = useForm({
-    values: defaultValues,
+    defaultValues,
     resolver: yupResolver(onboardingValidations),
   });
+
+  console.log(formMethods.formState.errors);
+
+  useEffect(() => {
+    if (defaultValues) {
+      formMethods.reset(defaultValues);
+    }
+  }, [defaultValues]);
 
   return (
     <FormProvider {...formMethods}>

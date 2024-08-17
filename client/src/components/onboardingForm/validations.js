@@ -19,7 +19,7 @@ export const onboardingValidations = yup.object().shape({
     .oneOf([yup.ref("newPassword"), null], "Passwords must match")
     .required("Confirm Password is required"),
   companyLogo: yup.mixed().required("Company logo is required"),
-  mobileNumber: yup
+  contactNubmer: yup
     .string()
     .matches(/^[0-9]+$/, "Mobile Number must be digits only")
     .required("Mobile Number is required"),
