@@ -6,12 +6,28 @@ import { get } from "../../../service";
 
 const CompanyProfile = () => {
   const { id } = useParams();
+
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["GETCOMPANY"],
     queryFn: () => get(`/get_company/${id}`),
   });
-  const onSubmit = (data) => {};
-  return <OnboardingForm defaultValues={{}} onSubmit={onSubmit} />;
+
+  const { email, name, twitter, facebook, linkedIn, contactNubmer } =
+    data?.data ?? {};
+
+  const defaultValues = {
+    email: email,
+    twitter: twitter,
+    linkedIn: linkedIn,
+    facebook: facebook,
+    companyName: name,
+    newPassword: "",
+    contactNubmer: contactNubmer,
+    confirmPassword: "",
+  };
+
+  const onSubmit = (formData) => {};
+  return <OnboardingForm defaultValues={defaultValues} onSubmit={onSubmit} />;
 };
 
 export default CompanyProfile;

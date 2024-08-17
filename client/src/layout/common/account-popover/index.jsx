@@ -20,7 +20,7 @@ const MENU_OPTIONS = [
   },
   {
     label: "Profile",
-    to: "/profile",
+    to: "/company-profile/",
   },
   {
     label: "Settings",
@@ -39,8 +39,12 @@ export default function AccountPopover() {
     setOpen(event.currentTarget);
   };
 
-  const handleClose = (to) => {
-    navigate(to);
+  const handleClose = (option) => {
+    let navigateTo = option.to;
+    if (option.label === "Profile") {
+      navigateTo = option.to + user._id;
+    }
+    navigate(navigateTo);
     setOpen(null);
   };
 
@@ -103,7 +107,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: "solid" }} />
 
         {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={() => handleClose(option.to)}>
+          <MenuItem key={option.label} onClick={() => handleClose(option)}>
             {option.label}
           </MenuItem>
         ))}

@@ -29,11 +29,11 @@ const RegisterCompany = () => {
       name: companyName,
       password: newPassword,
       ...rest,
-      userId:user._id
+      userId: user._id,
     };
     mutate(payload, {
       onSuccess: (res) => {
-        toast.success("")
+        toast.success(res?.data?.message);
       },
     });
   };

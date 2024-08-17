@@ -11,8 +11,9 @@ import SocialLinks from "./SocialLinks";
 import Stats from "./Stats";
 
 const OnboardingForm = ({ isPending, defaultValues, onSubmit }) => {
+
   const formMethods = useForm({
-    defaultValues,
+    values: defaultValues,
     resolver: yupResolver(onboardingValidations),
   });
 
@@ -54,7 +55,7 @@ const OnboardingForm = ({ isPending, defaultValues, onSubmit }) => {
               <FormSubHeader label="Company Information" />
               <Stack direction="row" spacing={2}>
                 <CustomInput label="Company Name" name="companyName" required />
-                <CustomInput label="Email" name="email"  type="email"required />
+                <CustomInput label="Email" name="email" type="email" required />
               </Stack>
               <Stack direction="row" spacing={2}>
                 <CustomInput
