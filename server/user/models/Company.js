@@ -15,13 +15,17 @@ const CompanySchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'ADMIN',
+        default: 'OWNER',
     },
     password: {
         type: String,
         required: true,
         min: 2,
         max: 50
+    },
+    profilePic: {
+        type: String,
+        default: ""
     },
     companyLogo: {
         type: String,

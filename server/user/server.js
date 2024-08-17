@@ -1,13 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import multer from 'multer';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { registerCompany, login } from './controllers/auth.js';
 import { uploadImage } from './controllers/upload.js'
+import { errorHandler } from './middlewares/errorHandler.mw.js'
+import { upload } from './middlewares/upload_image.mw.js';
 
 /* CONFIGURATIONS */
 
@@ -21,28 +22,20 @@ app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(morgan("common"));
 app.use(cors());
-app.use("/assets", express.static(path.join(__dirname, 'public/assets'))); // todo: need to set up real file storage
 
-/* FILE STORAGE */
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/assets')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-})
-
-const upload = multer({ storage });
-
+app.use("/public/assets", express.static(path.join(__dirname, 'public/assets')));
 
 /* ROUTES WITH FILES */
-app.post('/register_company', upload.single('profilePic'), registerCompany);
+app.post('/upload_image', upload.single('image'), uploadImage)
+
 
 /* ROUTES */
 app.post('/log_in', login);
-app.post('/upload-image', uploadImage)
+app.post('/register_company', registerCompany);
+
+/* ERROR HANDLING */
+
+app.use(errorHandler)
 
 /* MONGOOSE SETUP */
 

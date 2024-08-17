@@ -1,23 +1,25 @@
-import { Box, Divider, Paper, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
+import { Box, Paper, Stack } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import CustomInput from "../../../components/customInput";
 import CustomButton from "../../../components/customButton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { onboardingValidations } from "./validations";
 import FileUploader from "../../../components/fileUploader";
-import { Icon } from "@iconify/react";
 import { FormSubHeader } from "../../../components/formSubHeader";
+import SocialLinks from "./socialLinks";
 
 const CompanyOnboardingForm = () => {
-  const [logoUploaded, setLogoUploaded] = useState(false);
-
   const formMethods = useForm({
     defaultValues: {
       companyName: "",
       email: "",
       newPassword: "",
       confirmPassword: "",
+      linkedIn: "",
+      facebook: "",
+      twitter: "",
+      googleMap: "",
     },
     resolver: yupResolver(onboardingValidations),
   });
@@ -26,72 +28,40 @@ const CompanyOnboardingForm = () => {
     console.log(data);
   };
 
-  const handleFileUpload = (file) => {
-    setLogoUploaded(true);
-  };
-
   return (
     <FormProvider {...formMethods}>
-      <Box sx={{ p: 3 }}>
-        <Stack direction="row" spacing={2} position="relative">
-          <Paper variant="outlined" sx={{ maxHeight: "50vh", p: 2 }}>
-            <Box
-              sx={{
-                position: "relative",
-                width: 200,
-                height: 200,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <FileUploader
-                height={180}
-                width={180}
-                maxSize={10000}
-                accept={[".png", ".jpg", ".jpeg"]}
-                name="companyLogo"
-                onChange={handleFileUpload}
-              />
-              {logoUploaded && (
-                <Icon
-                  icon="fluent-emoji-flat:camera"
-                  fontSize={40}
-                  style={{
-                    position: "absolute",
-                    bottom: 30,
-                    right: 12,
-                    backgroundColor: "#ffffff",
-                    borderRadius: "50%",
-                    padding: "1px",
-                    border: "0.2px solid grey",
-                  }}
-                  onClick={() =>
-                    document.querySelector(`input[name="companyLogo"]`).click()
-                  }
-                />
-              )}
-            </Box>
-            <Stack
-              spacing={2}
-              direction="row"
-              sx={{ m: 2, justifyContent: "center" }}
-            >
-              <Icon icon="devicon:linkedin" fontSize={24} />
-              <Icon icon="devicon:facebook" fontSize={24} />
-              <Icon icon="skill-icons:twitter" fontSize={24} />
-              <Icon icon="logos:google-maps" fontSize={24} />
-            </Stack>
+      <Box sx={{ p: 1 }}>
+        <Stack sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
+          <Paper
+            variant="outlined"
+            sx={{
+              maxHeight: "50vh",
+              position: "relative",
+              p: 2,
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <FileUploader
+              height={180}
+              width={180}
+              maxSize={10000}
+              accept={[".png", ".jpg", ".jpeg"]}
+              name="companyLogo"
+            />
+            <SocialLinks />
           </Paper>
           <Paper
             variant="outlined"
             component="form"
             noValidate
             autoComplete="off"
-            sx={{ px: 2, pt: 2, pb: 4, flexGrow: 1 }}
+            sx={{ p: 3, pt: 2, flexGrow: 1 }}
             onSubmit={formMethods.handleSubmit(onSubmit)}
           >
-            <Stack direction="column" spacing={2} p={3}>
+            <Stack direction="column" spacing={2}>
               <FormSubHeader label="Company Information" />
               <Stack direction="row" spacing={2}>
                 <CustomInput label="Company Name" name="companyName" required />
@@ -156,7 +126,7 @@ const CompanyOnboardingForm = () => {
               </Stack>
               <Stack spacing={2} direction="row">
                 <CustomInput label="Twitter" name="twitter" fullWidth />
-                <CustomInput label="Others" name="other" fullWidth />
+                <CustomInput label="Location" name="googleMap" fullWidth />
               </Stack>
               <Box
                 sx={{

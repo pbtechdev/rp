@@ -25,6 +25,7 @@ const CustomInput = ({
             variant={variant ?? "outlined"}
             {...field}
             {...rest}
+            size="small"
             select={!!options}
             error={!!error}
             helperText={error?.message}
