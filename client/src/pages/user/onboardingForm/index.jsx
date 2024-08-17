@@ -65,7 +65,7 @@ const CompanyOnboardingForm = () => {
               <FormSubHeader label="Company Information" />
               <Stack direction="row" spacing={2}>
                 <CustomInput label="Company Name" name="companyName" required />
-                <CustomInput label="Email" name="email" required />
+                <CustomInput label="Email" name="email"  type="email"required />
               </Stack>
               <Stack direction="row" spacing={2}>
                 <CustomInput
