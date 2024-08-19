@@ -20,6 +20,7 @@ const CompanyProfile = () => {
     linkedIn,
     contactNubmer,
     companyLogo,
+    employeesCount,
   } = data?.data ?? {};
 
   const defaultValues = {
@@ -35,9 +36,16 @@ const CompanyProfile = () => {
   };
 
   const onSubmit = (formData) => {
-    console.log(formData)
+    console.log(formData);
   };
-  return <OnboardingForm defaultValues={defaultValues} onSubmit={onSubmit} />;
+  return (
+    <OnboardingForm
+      employeesCount={employeesCount}
+      defaultValues={defaultValues}
+      onSubmit={onSubmit}
+      actionName="Update"
+    />
+  );
 };
 
 export default CompanyProfile;

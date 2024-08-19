@@ -10,13 +10,17 @@ import { FormSubHeader } from "../formSubHeader";
 import SocialLinks from "./SocialLinks";
 import Stats from "./Stats";
 
-const OnboardingForm = ({ isPending, defaultValues, onSubmit }) => {
+const OnboardingForm = ({
+  employeesCount,
+  isPending,
+  defaultValues,
+  onSubmit,
+  actionName = "Create",
+}) => {
   const formMethods = useForm({
     defaultValues,
     resolver: yupResolver(onboardingValidations),
   });
-
-  console.log(formMethods.formState.errors);
 
   useEffect(() => {
     if (defaultValues) {
@@ -31,7 +35,8 @@ const OnboardingForm = ({ isPending, defaultValues, onSubmit }) => {
           <Paper
             variant="outlined"
             sx={{
-              maxHeight: "50vh",
+              maxHeight: "28vh",
+              minHeight: "365px",
               position: "relative",
               p: 2,
               display: "flex",
@@ -48,7 +53,7 @@ const OnboardingForm = ({ isPending, defaultValues, onSubmit }) => {
               name="companyLogo"
             />
             <SocialLinks />
-            <Stats />
+            <Stats employeesCount={employeesCount} />
           </Paper>
           <Paper
             variant="outlined"
@@ -107,7 +112,7 @@ const OnboardingForm = ({ isPending, defaultValues, onSubmit }) => {
                   flexGrow: 1,
                 }}
               >
-                <CustomButton loading={isPending}>Create</CustomButton>
+                <CustomButton loading={isPending}>{actionName}</CustomButton>
               </Box>
             </Stack>
           </Paper>
