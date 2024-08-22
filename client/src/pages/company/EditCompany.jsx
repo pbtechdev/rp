@@ -1,13 +1,13 @@
 import React from "react";
-import OnboardingForm from "../../../components/onboardingForm";
+import OnboardingForm from "../../components/companyForm";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { get } from "../../../service";
+import { get } from "../../service";
 
-const CompanyProfile = () => {
+const EditCompany = () => {
   const { id } = useParams();
 
-  const { data, isLoading, isFetching } = useQuery({
+  const { data } = useQuery({
     queryKey: ["GETCOMPANY"],
     queryFn: () => get(`/get_company/${id}`),
   });
@@ -18,21 +18,19 @@ const CompanyProfile = () => {
     twitter,
     facebook,
     linkedIn,
-    contactNubmer,
     companyLogo,
+    industryType,
     employeesCount,
   } = data?.data ?? {};
 
   const defaultValues = {
     companyLogo: companyLogo ?? "",
     email: email ?? "",
+    companyName: name,
     twitter: twitter ?? "",
     linkedIn: linkedIn ?? "",
     facebook: facebook ?? "",
-    companyName: name,
-    newPassword: "",
-    contactNubmer: contactNubmer ?? "",
-    confirmPassword: "",
+    industryType: industryType ?? "",
   };
 
   const onSubmit = (formData) => {
@@ -48,4 +46,4 @@ const CompanyProfile = () => {
   );
 };
 
-export default CompanyProfile;
+export default EditCompany;

@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 
 export const registerCompany = async (req, res, next) => {
     try {
-        const { name, contactNubmer, password, companyLogo, linkedIn, facebook, twitter, userId } = req.body;
+        const { name, industryType, password, companyLogo, linkedIn, facebook, twitter, userId, portfolioSite } = req.body;
 
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
@@ -16,11 +16,13 @@ export const registerCompany = async (req, res, next) => {
 
         company.name = name;
         company.password = passwordHash;
-        company.contactNubmer = contactNubmer;
+        company.industryType = industryType;
         company.companyLogo = companyLogo;
         company.linkedIn = linkedIn;
         company.facebook = facebook;
         company.twitter = twitter;
+        company.portfolioSite = portfolioSite;
+
         await company.save();
 
         return res.status(201).json({ message: 'Company profile has been created' });

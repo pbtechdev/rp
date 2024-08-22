@@ -4,10 +4,10 @@ import { Outlet, useRoutes } from "react-router-dom";
 import DashboardLayout from "../layout";
 import { Loader } from "../components/fallbackUi";
 import Login from "../pages/authention/Login";
-import RegisterCompany from "../pages/user/registerCompany";
+import CreateCompany from "../pages/company/CreateCompany";
 import PageNotFound from "../components/pageNotFound";
 import AuthProvider from "../components/auth";
-import CompanyProfile from "../pages/user/companyProfile";
+import EditCompany from "../pages/company/EditCompany";
 
 // ----------------------------------------------------------------------
 
@@ -26,12 +26,12 @@ const Router = () => {
       children: [
         { element: <div style={{ height: "900px" }}>Hello</div>, index: true },
         {
-          path: "company-onboarding-form",
-          element: <RegisterCompany />,
+          path: "create-company-profile",
+          element: <CreateCompany />,
         },
         {
-          path: "company-profile/:id",
-          element: <CompanyProfile />,
+          path: "edit-company-profile/:id",
+          element: <EditCompany />,
         },
       ],
     },

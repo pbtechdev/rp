@@ -132,7 +132,7 @@ const ControlledUploader = forwardRef(
       });
     };
 
-    const { getRootProps, getInputProps, open } = useDropzone({
+    const { getInputProps, open } = useDropzone({
       onDrop,
       accept: { "image/*": accept },
       multiple: false,
@@ -162,20 +162,13 @@ const ControlledUploader = forwardRef(
 
     return (
       <Box height={height} width={width}>
-        <StyledBox
-          error={isError?.toString()}
-          disabled={disabled}
-          {...getRootProps()}
-        >
+        <StyledBox error={isError?.toString()} disabled={disabled}>
           {isPending ? <CircularProgress /> : renderImage(value)}
-          <input ref={ref} onBlur={onBlur} {...getInputProps()} />
           <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              open();
-            }}
+            onClick={open}
             sx={{ position: "absolute", bottom: -5, right: -5 }}
           >
+            <input ref={ref} {...getInputProps()} onBlur={onBlur} />
             <Icon
               style={{
                 backgroundColor: "white",

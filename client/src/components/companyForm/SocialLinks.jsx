@@ -16,6 +16,9 @@ const SocialLinks = () => {
       <a target="_blank" href={formValue.twitter}>
         <Icon icon="skill-icons:twitter" fontSize={24} />
       </a>
+      <a target="_blank" href={formValue.portfolioSite}>
+        <Icon icon="noto:globe-with-meridians" fontSize={24} />
+      </a>
     </Stack>
   );
 };

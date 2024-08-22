@@ -1,22 +1,21 @@
 import React from "react";
-import OnboardingForm from "../../../components/onboardingForm";
+import CompanyForm from "../../components/companyForm";
 import { useMutation } from "@tanstack/react-query";
-import { post } from "../../../service";
-import { useAuth } from "../../../components/auth";
+import { post } from "../../service";
+import { useAuth } from "../../components/auth";
 import toast from "react-hot-toast";
 
-const RegisterCompany = () => {
+const CreateCompany = () => {
   const { user } = useAuth();
 
   const defaultValues = {
     email: user.email,
+    companyName: "",
+    companyLogo: "",
     twitter: "",
     linkedIn: "",
     facebook: "",
-    companyName: "",
-    newPassword: "",
-    contactNubmer: "",
-    confirmPassword: "",
+    industryType: "",
   };
 
   const { mutate, isPending } = useMutation({
@@ -38,7 +37,7 @@ const RegisterCompany = () => {
     });
   };
   return (
-    <OnboardingForm
+    <CompanyForm
       isPending={isPending}
       defaultValues={defaultValues}
       onSubmit={onSubmit}
@@ -46,4 +45,4 @@ const RegisterCompany = () => {
   );
 };
 
-export default RegisterCompany;
+export default CreateCompany;

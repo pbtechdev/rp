@@ -7,16 +7,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { onboardingValidations } from "./validations";
 import FileUploader from "../fileUploader";
 import { FormSubHeader } from "../formSubHeader";
-import SocialLinks from "./SocialLinks";
 import Stats from "./Stats";
+import SocialLinks from "./SocialLinks";
+import { useNavigate } from "react-router-dom";
 
-const OnboardingForm = ({
+const CompanyForm = ({
   employeesCount,
+  teamsCount,
   isPending,
   defaultValues,
   onSubmit,
   actionName = "Create",
 }) => {
+  const navigate = useNavigate();
   const formMethods = useForm({
     defaultValues,
     resolver: yupResolver(onboardingValidations),
@@ -28,6 +31,15 @@ const OnboardingForm = ({
     }
   }, [defaultValues]);
 
+  const handleClick = (clickFrom) => {
+    if (clickFrom === "EMPOLYEE" && employeesCount > 0) {
+      navigate("/employee-list");
+    }
+    if (clickFrom === "TEAMS" && teamsCount > 0) {
+      navigate("/teams-list");
+    }
+  };
+
   return (
     <FormProvider {...formMethods}>
       <Box sx={{ p: 1 }}>
@@ -35,9 +47,9 @@ const OnboardingForm = ({
           <Paper
             variant="outlined"
             sx={{
-              maxHeight: "28vh",
-              minHeight: "365px",
+              minHeight: "310px",
               position: "relative",
+              height: "20%",
               p: 2,
               display: "flex",
               justifyContent: "flex-start",
@@ -53,7 +65,18 @@ const OnboardingForm = ({
               name="companyLogo"
             />
             <SocialLinks />
-            <Stats employeesCount={employeesCount} />
+            <Box>
+              <Stats
+                handleClick={() => handleClick("EMPOLYEE")}
+                label="Employees"
+                count={employeesCount}
+              />
+              <Stats
+                handleClick={() => handleClick("TEAMS")}
+                label="Teams"
+                count={employeesCount}
+              />
+            </Box>
           </Paper>
           <Paper
             variant="outlined"
@@ -69,25 +92,12 @@ const OnboardingForm = ({
                 <CustomInput label="Company Name" name="companyName" required />
                 <CustomInput label="Email" name="email" type="email" required />
               </Stack>
-              <Stack direction="row" spacing={2}>
-                <CustomInput
-                  label="New Password"
-                  name="newPassword"
-                  type="password"
-                  required
-                />
-                <CustomInput
-                  label="Confirm Password"
-                  name="confirmPassword"
-                  required
-                />
-              </Stack>
+
               <Stack direction="row" spacing={2}>
                 <Box width="50%">
                   <CustomInput
-                    label="Mobile Number"
-                    name="contactNubmer"
-                    type="number"
+                    label="Industry Type"
+                    name="industryType"
                     required
                   />
                 </Box>
@@ -100,10 +110,8 @@ const OnboardingForm = ({
                 <CustomInput label="Facebook" name="facebook" fullWidth />
               </Stack>
               <Stack spacing={2} direction="row">
-                <Box width="50%">
-                  <CustomInput label="Twitter" name="twitter" fullWidth />
-                </Box>
-                <Box width="50%"></Box>
+                <CustomInput label="Twitter" name="twitter" fullWidth />
+                <CustomInput label="Website" name="portfolioSite" fullWidth />
               </Stack>
               <Box
                 sx={{
@@ -122,4 +130,4 @@ const OnboardingForm = ({
   );
 };
 
-export default OnboardingForm;
+export default CompanyForm;
