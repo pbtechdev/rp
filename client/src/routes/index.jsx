@@ -8,6 +8,7 @@ import CreateCompany from "../pages/company/CreateCompany";
 import PageNotFound from "../components/pageNotFound";
 import AuthProvider from "../components/auth";
 import EditCompany from "../pages/company/EditCompany";
+import CreateEmployee from "../pages/employee/CreateEmployee";
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,10 @@ const Router = () => {
         {
           path: "edit-company-profile/:id",
           element: <EditCompany />,
+        },
+        {
+          path: "create-employee-profile",
+          element: <CreateEmployee />,
         },
       ],
     },
