@@ -33,8 +33,9 @@ app.post('/upload_image', upload.single('image'), uploadImage)
 
 /* ROUTES */
 app.get('/get_company/:id', getCompany);
-app.post('/log_in', login);
 app.post('/register_company', registerCompany);
+
+app.post('/log_in', login);
 
 
 /* ERROR HANDLING */
