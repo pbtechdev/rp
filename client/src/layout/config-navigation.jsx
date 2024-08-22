@@ -8,9 +8,9 @@ const navConfig = [
     icon: <Iconify icon="mingcute:home-7-fill" />,
   },
   {
-    title: "user",
+    title: "administration",
     path: "/user",
-    icon: <Iconify icon="fa:user-plus" />,
+    icon: <Iconify icon="clarity:administrator-solid" />,
   },
 ];
 

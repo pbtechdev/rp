@@ -20,7 +20,7 @@ const MENU_OPTIONS = [
   },
   {
     label: "Profile",
-    to: "/company-profile/",
+    to: "/edit-company-profile/",
   },
   {
     label: "Settings",

@@ -9,6 +9,7 @@ import PageNotFound from "../components/pageNotFound";
 import AuthProvider from "../components/auth";
 import EditCompany from "../pages/company/EditCompany";
 import CreateEmployee from "../pages/employee/CreateEmployee";
+import Home from "../pages/home";
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +26,7 @@ const Router = () => {
         </AuthProvider>
       ),
       children: [
-        { element: <div style={{ height: "900px" }}>Hello</div>, index: true },
+        { element: <Home />, index: true },
         {
           path: "create-company-profile",
           element: <CreateCompany />,

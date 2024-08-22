@@ -98,6 +98,7 @@ const CompanyForm = ({
                   <CustomInput
                     label="Industry Type"
                     name="industryType"
+                    placeholder="Ex: IT"
                     required
                   />
                 </Box>
@@ -106,12 +107,32 @@ const CompanyForm = ({
 
               <FormSubHeader label="Social Media Links" />
               <Stack spacing={2} direction="row">
-                <CustomInput label="LinkedIn" name="linkedIn" fullWidth />
-                <CustomInput label="Facebook" name="facebook" fullWidth />
+                <CustomInput
+                  placeholder="https://www.linkedin.com/company-page"
+                  label="LinkedIn"
+                  name="linkedIn"
+                  fullWidth
+                />
+                <CustomInput
+                  placeholder="https://www.facebook.com/company-page"
+                  label="Facebook"
+                  name="facebook"
+                  fullWidth
+                />
               </Stack>
               <Stack spacing={2} direction="row">
-                <CustomInput label="Twitter" name="twitter" fullWidth />
-                <CustomInput label="Website" name="portfolioSite" fullWidth />
+                <CustomInput
+                  placeholder="https://www.twitter.com/company-page"
+                  label="Twitter"
+                  name="twitter"
+                  fullWidth
+                />
+                <CustomInput
+                  placeholder="https://www.my-website.com"
+                  label="Website"
+                  name="portfolioSite"
+                  fullWidth
+                />
               </Stack>
               <Box
                 sx={{
