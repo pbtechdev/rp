@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const CompanySchema = new mongoose.Schema({
+const CompanySchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -55,6 +55,7 @@ const CompanySchema = new mongoose.Schema({
     role: {
         type: String,
         immutable: true,
+        enum: ['OWNER', 'HR', 'MANAGER', 'LEAD', 'EMPLOYEE'],
         default: "OWNER",
         min: 2,
         max: 50,
@@ -79,6 +80,6 @@ const CompanySchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-const Company = mongoose.model("Company", CompanySchema)
+const Company = model("Company", CompanySchema)
 
 export default Company;

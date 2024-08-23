@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Company from "../models/Company.js";
+import Company from "../../models/Company.js";
 
 /* GET COMPANY DETAILS */
 

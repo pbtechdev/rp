@@ -1,10 +1,10 @@
-import Company from '../models/Company.js';
+import Company from '../../models/Company.js';
 import bcrypt from 'bcrypt';
 
 
 /* REGISTER COMPANY */
 
-export const registerCompany = async (req, res, next) => {
+export const createUser = async (req, res, next) => {
     try {
         const { name, industryType, password, companyLogo, linkedIn, facebook, twitter, userId, portfolioSite } = req.body;
 
