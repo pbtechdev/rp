@@ -13,7 +13,13 @@ import AuthProvider from "./components/auth";
 const onError = (err) => {
   const { data, status } = err?.response ?? {};
   if (status === 400) {
-    toast.error(data?.message);
+    let message = data?.message;
+    if (Array.isArray(message)) {
+      message = message?.map((item, i) => <span key={i}>{item}</span>);
+    }
+    toast.error(
+      <div style={{ display: "flex", flexDirection: "column" }}>{message}</div>
+    );
     return;
   }
   toast.error("Something went worng");

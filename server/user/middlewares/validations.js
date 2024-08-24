@@ -1,4 +1,4 @@
-import { query } from 'express-validator';
+import { query,body,param } from 'express-validator';
 
 export const userQueryValidation = [
     query('linkedCompanyId').optional().isMongoId().withMessage('Invalid company ID format'),
@@ -30,13 +30,13 @@ export const createTeamValidation = [
 ];
 
 export const getTeamsValidation = [
-    query('linkedCompanyId').notEmpty().withMessage('Company ID is required').isMongoId().withMessage('company ID not valid')
+    query('linkedCompanyId').notEmpty().withMessage('Company ID is required').bail().isMongoId().withMessage('company ID not valid')
 ];
 
 export const createCompanyValidation = [
     body('name').notEmpty().withMessage('Name is required'),
     body('password').notEmpty().withMessage('Password is required'),
-    body('userId').notEmpty().withMessage('User ID is required').isMongoId().withMessage('Invalid User ID format'),
+    body('userId').notEmpty().withMessage('User ID is required').bail().isMongoId().withMessage('Invalid User ID format'),
     body('industryType').optional().isString().withMessage('Industry Type must be a string'),
     body('companyLogo').optional().isString().withMessage('Company Logo must be a string'),
     body('linkedIn').optional().isURL().withMessage('LinkedIn must be a valid URL'),
@@ -46,12 +46,12 @@ export const createCompanyValidation = [
 ]
 
 export const getCompanyValidation = [
-    param('id').notEmpty().withMessage('Company ID is required').isMongoId().withMessage('Invalid company ID format')
+    param('id').notEmpty().withMessage('Company ID is required').bail().isMongoId().withMessage('Invalid company ID format')
 ];
 
 export const loginValidation = [
     body('userName')
-        .notEmpty().withMessage('Username is required')
+        .notEmpty().withMessage('Username is required').bail()
         .isEmail().withMessage('Username must be a valid email address'),
     body('password')
         .notEmpty().withMessage('Password is required')
@@ -59,7 +59,7 @@ export const loginValidation = [
 
 export const uploadImageValidation = [
     body('userId')
-        .notEmpty().withMessage('User ID is required')
+        .notEmpty().withMessage('User ID is required').bail()
         .isMongoId().withMessage('Invalid company ID format'),
     body('saveAsProfile')
         .notEmpty().withMessage('Save as profile flag is required')

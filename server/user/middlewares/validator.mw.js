@@ -4,7 +4,9 @@ export const validateReq = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return next({ status: 400, message: errors.array() });
+        const messages = errors.array();
+        const modifiedMsgs = messages?.map(item => item?.msg)
+        return next({ status: 400, message: modifiedMsgs });
     }
 
 };
