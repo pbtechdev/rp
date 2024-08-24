@@ -4,82 +4,71 @@ const CompanySchema = new Schema({
     name: {
         type: String,
         required: true,
-        min: 2,
-        max: 50,
+        minlength: 2,
+        maxlength: 50,
         trim: true
     },
     email: {
         type: String,
-        min: 2,
-        max: 2000,
+        minlength: 5,
+        maxlength: 256,
         unique: true,
         trim: true,
         immutable: true,
+        match: [/.+@.+\..+/, 'Invalid email address']
     },
     industryType: {
         type: String,
-        min: 2,
-        max: 50,
+        minlength: 2,
+        maxlength: 50
     },
     password: {
         type: String,
         required: true,
-        min: 2,
-        max: 50,
-        trim: true
+        minlength: 6,
+        maxlength: 2000
     },
     portfolioSite: {
         type: String,
-        default: "",
         trim: true,
-        max: 2000
+        maxlength: 2000
     },
     linkedIn: {
         type: String,
-        default: "",
         trim: true,
-        max: 2000
+        maxlength: 2000
     },
     facebook: {
         type: String,
-        default: "",
         trim: true,
-        max: 2000
+        maxlength: 2000
     },
     twitter: {
         type: String,
-        default: "",
         trim: true,
-        max: 2000
+        maxlength: 2000
     },
     role: {
         type: String,
+        default: 'OWNER',
         immutable: true,
-        enum: ['OWNER', 'HR', 'MANAGER', 'LEAD', 'EMPLOYEE'],
-        default: "OWNER",
-        min: 2,
-        max: 50,
+        minlength: 2,
+        maxlength: 50
     },
     companyLogo: {
         type: String,
-        default: "",
         trim: true
     },
     employeesCount: {
         type: Number,
-        default: 0,
-        min: 2,
-        max: 50,
+        default: 0
     },
-    teams: {
+    teamsCount: {
         type: Number,
-        default: 0,
-        min: 2,
-        max: 50,
+        default: 0
     }
+}, { timestamps: true });
 
-}, { timestamps: true })
-
-const Company = model("Company", CompanySchema)
+const Company = model("Company", CompanySchema);
 
 export default Company;
