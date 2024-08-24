@@ -10,6 +10,7 @@ import AuthProvider from "../components/auth";
 import EditCompany from "../pages/company/EditCompany";
 import CreateEmployee from "../pages/employee/CreateEmployee";
 import Home from "../pages/home";
+import EmployeeListing from "../pages/employee/employeesListingPage";
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,10 @@ const Router = () => {
           path: "create-employee-profile",
           element: <CreateEmployee />,
         },
+        {
+          path:"employee-listing-page",
+          element:<EmployeeListing/>
+        }
       ],
     },
     {
