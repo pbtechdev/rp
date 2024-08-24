@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Paper, Stack } from "@mui/material";
-import {  FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import CustomInput from "../customInput";
 import CustomButton from "../customButton";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -24,7 +24,7 @@ const EmployeeForm = ({
     resolver: yupResolver(employeeValidations),
   });
 
-  const { control } = formMethods;
+  const { control, formState: { errors } } = formMethods;
   const [teamValue, setTeamValue] = useState(defaultValues?.team || "");
 
   const roleOptions = [
@@ -87,25 +87,32 @@ const EmployeeForm = ({
             onSubmit={formMethods.handleSubmit(onSubmit)}
           >
             <Stack direction="column" spacing={2}>
-
-            {/* Employee Information */}
+              {/* Employee Information */}
               <FormSubHeader label="Employee Information" />
               <Stack direction="row" spacing={2}>
                 <CustomInput label="Name" name="name" required />
                 <CustomInput label="Email" name="email" type="email" required />
               </Stack>
-              <Stack direction="row" spacing={2} sx={{width:"100%"}}>
-                <CustomInput label="Position" name="position" type="text" />
-                <Box width="100%">
-                <CustomIconAutocomplete
-                  label="Team"
-                  name="team"
-                  options={teamOptions}
-                  control={control}
-                  value={teamValue}
-                  onChange={(newValue) => setTeamValue(newValue)}
-                  iconColor="primary.main" 
+              <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+                <CustomInput
+                  label="Position"
+                  name="position"
+                  type="text"
+                  required
                 />
+                <Box width="100%">
+                  <CustomIconAutocomplete
+                    label="Team"
+                    name="team"
+                    options={teamOptions}
+                    control={control}
+                    value={teamValue}
+                    onChange={(newValue) => setTeamValue(newValue)}
+                    iconColor="primary.main"
+                    required
+                    error={!!formMethods.formState.errors.team}
+                    helperText={formMethods.formState.errors.team?.message}
+                  />
                 </Box>
               </Stack>
               <Stack direction="row" spacing={2}>
@@ -113,6 +120,7 @@ const EmployeeForm = ({
                   label="Employee ID"
                   name="employeeId"
                   type="number"
+                  required
                 />
                 <CustomAutocomplete
                   name="role"
@@ -120,13 +128,15 @@ const EmployeeForm = ({
                   options={roleOptions}
                   label="Role"
                   placeholder="Select a role"
+                  required
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
-                <CustomDatePicker
+                <CustomInput
                   label="Total Experience"
                   name="yearsOfExperience"
                   type="number"
+                  required
                 />
                 <CustomDatePicker
                   label="Joining Date"
@@ -134,13 +144,19 @@ const EmployeeForm = ({
                   control={control}
                   rules={{ validate: "" }}
                   defaultValue=""
+                  required
                 />
               </Stack>
 
               {/* Payment Details */}
               <FormSubHeader label="Payment Details" sx={{ mb: 1 }} />
               <Stack direction="row" spacing={2}>
-                <CustomInput label="Salary" name="salary" type="number" />
+                <CustomInput
+                  label="Salary"
+                  name="salary"
+                  type="number"
+                  required
+                />
                 <CustomInput
                   label="Variable Pay"
                   name="variable"
@@ -148,11 +164,16 @@ const EmployeeForm = ({
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
-                <CustomInput label="PAN No." name="pan" type="text" />
-                <CustomInput label="ESIC No." name="esicNo" type="number" />
+                <CustomInput label="PAN No." name="pan" type="text" required />
+                <CustomInput
+                  label="ESIC No."
+                  name="esicNo"
+                  type="number"
+                  required
+                />
               </Stack>
               <Stack direction="row" spacing={2}>
-                <CustomInput label="UAN" name="uan" type="number" />
+                <CustomInput label="UAN" name="uan" type="number" required />
                 <CustomInput label="Bonus" name="bonus" type="number" />
               </Stack>
 
@@ -163,16 +184,19 @@ const EmployeeForm = ({
                   label="Personal Email"
                   name="personalEmail"
                   type="email"
+                  required
                 />
                 <CustomInput
                   label="Mobile Number"
                   name="mobileNumber"
                   type="number"
+                  required
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
                 <CustomAutocomplete
                   label="Gender"
+                  required
                   name="gender"
                   options={genderOptions}
                 />
@@ -181,7 +205,9 @@ const EmployeeForm = ({
                   name="dateOfBirth"
                   control={control}
                   rules={{ validate: "" }}
+                  required
                   defaultValue=""
+                  type="date"
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
@@ -190,6 +216,7 @@ const EmployeeForm = ({
                   name="address"
                   fullWidth
                   multiline
+                  required
                   rows={4}
                 />
               </Stack>
