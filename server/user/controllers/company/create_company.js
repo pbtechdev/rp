@@ -8,10 +8,6 @@ export const createCompany = async (req, res, next) => {
     try {
         const { name, industryType, password, companyLogo, linkedIn, facebook, twitter, userId, portfolioSite } = req.body;
 
-        if (!name || !password) {
-            return res.status(400).json({ message: 'Missing required fields' });
-        }
-
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
 

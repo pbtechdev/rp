@@ -11,6 +11,22 @@ import { login } from './controllers/login.js';
 import { uploadImage } from './controllers/upload.js';
 import { errorHandler } from './middlewares/error_handler.mw.js';
 import { upload } from './middlewares/upload_image.mw.js';
+import { createUser } from '../user/controllers/user/create_user.js';
+import { getUsers } from '../user/controllers/user/get_all_users.js'
+import { createTeam } from './controllers/team/create_team.js';
+import { getTeams } from './controllers/team/get_teams.js';
+
+import {
+    userQueryValidation,
+    createUserValidation,
+    createTeamValidation,
+    createCompanyValidation,
+    getTeamsValidation,
+    getCompanyValidation,
+    loginValidation,
+    uploadImageValidation
+} from './middlewares/validations.js'
+import { validateReq } from './middlewares/validator.mw.js'
 
 /* CONFIGURATIONS */
 
@@ -28,14 +44,23 @@ app.use(cors());
 app.use("/public/assets", express.static(path.join(__dirname, 'public/assets')));
 
 /* ROUTES WITH FILES */
-app.post('/upload_image', upload.single('image'), uploadImage)
+app.post('/upload_image', uploadImageValidation, validateReq, upload.single('image'), uploadImage)
 
 
 /* ROUTES */
-app.get('/get_company/:id', getCompany);
-app.post('/create_company', createCompany);
-app.post('/create_user', createUser);
-app.post('/log_in', login);
+
+app.post('/log_in', loginValidation, validateReq, login);
+
+app.post('/create_company', createCompanyValidation, validateReq, createCompany);
+app.get('/get_company/:id', getCompanyValidation, validateReq, getCompany);
+
+
+app.post('/create_user', userQueryValidation, validateReq, createUser);
+app.get('/get_users', createUserValidation, validateReq, getUsers)
+
+app.post('/create_team', createTeamValidation, validateReq, createTeam)
+app.post('/get_teams', getTeamsValidation, validateReq, getTeams)
+
 
 
 /* ERROR HANDLING */

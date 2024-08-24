@@ -5,9 +5,6 @@ export const uploadImage = async (req, res, next) => {
     const { userId, saveAsProfile } = req.body;
     const { path } = req.file ?? {};
     try {
-        if (!saveAsProfile) return res.status(400).json({ message: 'Bad Request' })
-        if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({ message: 'Invalid company ID' })
-
         const company = await Company.findById(userId);
         if (!company) return res.status(404).json({ message: 'Company not found!' })
         const absolutePath = 'http://localhost:8081/' + path

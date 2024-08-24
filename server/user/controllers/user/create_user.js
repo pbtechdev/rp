@@ -7,19 +7,13 @@ import bcrypt from 'bcrypt';
 
 export const createUser = async (req, res, next) => {
     const session = await mongoose.startSession();
-    session.startTransaction(); 
+    session.startTransaction();
 
     try {
         const {
             name, email, password, role, profilePic, joiningDate, totalYearsExperience, employeeId,
-            position, team, personalInfo, paymentInfo, linkedCompanyId
+            position, teamId, personalInfo, paymentInfo, linkedCompanyId
         } = req.body;
-
-        // Validate required fields
-        if (!name || !email || !password || !team || !linkedCompanyId) {
-            await session.abortTransaction(); // Rollback transaction if any required field is missing
-            return res.status(400).json({ message: 'Missing required fields' });
-        }
 
         // Check if email already exists
         const existingUser = await User.findOne({ email }).session(session);
@@ -28,17 +22,17 @@ export const createUser = async (req, res, next) => {
             return res.status(400).json({ message: 'Email already in use' });
         }
 
-        // Validate the team field
-        if (!mongoose.isValidObjectId(team)) {
-            await session.abortTransaction(); // Rollback transaction if team ID is invalid
-            return res.status(400).json({ message: 'Invalid team ID format' });
-        }
-
         // Check if the team exists
-        const existingTeam = await Team.findById(team).session(session);
+        const existingTeam = await Team.findById(teamId).session(session);
         if (!existingTeam) {
             await session.abortTransaction(); // Rollback transaction if team does not exist
             return res.status(400).json({ message: 'Team with the given ID does not exist' });
+        }
+
+        const existingCompany = await Company.findById(linkedCompanyId).session(session);
+        if (!existingCompany) {
+            await session.abortTransaction(); // Rollback transaction if company does not exist
+            return res.status(400).json({ message: 'Company with the given ID does not exist' });
         }
 
         const salt = await bcrypt.genSalt();
@@ -54,7 +48,7 @@ export const createUser = async (req, res, next) => {
             totalYearsExperience,
             employeeId,
             position,
-            team,
+            teamId,
             personalInfo,
             paymentInfo,
             linkedCompanyId
@@ -64,6 +58,9 @@ export const createUser = async (req, res, next) => {
 
         existingTeam.teamSize += 1;
         await existingTeam.save({ session });
+
+        existingCompany.employeesCount += 1;
+        await existingCompany.save({ session });
 
         // Commit the transaction if everything is successful
         await session.commitTransaction();

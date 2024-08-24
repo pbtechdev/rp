@@ -16,6 +16,11 @@ const TeamSchema = new Schema({
         type: String,
         minlength: 2,
         maxlength: 50
+    },
+    linkedCompanyId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
     }
 }, { timestamps: true });
 

@@ -123,11 +123,10 @@ const UserSchema = new Schema({
         maxlength: 200,
         trim: true
     },
-    team: {
-        type: String,
-        minlength: 2,
-        maxlength: 200,
-        trim: true
+    teamId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
     },
     personalInfo: PersonalInfo,
     paymentInfo: PaymentInfo
