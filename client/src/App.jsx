@@ -12,7 +12,7 @@ import AuthProvider from "./components/auth";
 
 const onError = (err) => {
   const { data, status } = err?.response ?? {};
-  if (status === 400) {
+  if (status === 400 || status === 500) {
     let message = data?.message;
     if (Array.isArray(message)) {
       message = message?.map((item, i) => <span key={i}>{item}</span>);
@@ -20,9 +20,8 @@ const onError = (err) => {
     toast.error(
       <div style={{ display: "flex", flexDirection: "column" }}>{message}</div>
     );
-    return;
+    return toast.error("Something went worng");
   }
-  toast.error("Something went worng");
 };
 
 const queryClient = new QueryClient({

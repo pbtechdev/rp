@@ -8,5 +8,5 @@ export const validateReq = (req, res, next) => {
         const modifiedMsgs = messages?.map(item => item?.msg)
         return next({ status: 400, message: modifiedMsgs });
     }
-
+    next()
 };

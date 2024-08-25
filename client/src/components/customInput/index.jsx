@@ -21,10 +21,14 @@ const CustomInput = ({
       <Controller
         name={name}
         control={controlProp || control}
-        render={({ field, fieldState: { error } }) => (
+        render={({
+          field: { value, ...restFeildProps },
+          fieldState: { error },
+        }) => (
           <TextField
             variant={variant ?? "outlined"}
-            {...field}
+            value={value ?? ""}
+            {...restFeildProps}
             {...rest}
             size="small"
             error={!!error}

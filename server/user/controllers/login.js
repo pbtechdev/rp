@@ -10,6 +10,7 @@ export const login = async (req, res) => {
         const { userName, password } = req.body;
 
         const user = await Company.findOne({ email: userName });
+
         if (!user) return res.status(400).json({ message: "User does not exit" });
 
         const isMatch = await bcrypt.compare(password, user.password);

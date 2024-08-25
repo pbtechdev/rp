@@ -6,16 +6,12 @@ import bcrypt from 'bcrypt';
 
 export const createCompany = async (req, res, next) => {
     try {
-        const { name, industryType, password, companyLogo, linkedIn, facebook, twitter, userId, portfolioSite } = req.body;
-
-        const salt = await bcrypt.genSalt();
-        const passwordHash = await bcrypt.hash(password, salt);
+        const { name, industryType, companyLogo, linkedIn, facebook, twitter, userId, portfolioSite } = req.body;
 
         const company = await Company.findById(userId);
         if (!company) return res.status(400).json({ message: 'Unable to find your profile' });
 
         company.name = name;
-        company.password = passwordHash;
         company.industryType = industryType;
         company.companyLogo = companyLogo;
         company.linkedIn = linkedIn;

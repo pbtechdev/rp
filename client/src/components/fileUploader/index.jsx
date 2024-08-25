@@ -70,11 +70,11 @@ const FileUploader = ({
       name={name}
       disabled={disabled}
       control={controlProp ? controlProp : control}
-      render={({ field, fieldState }) => (
+      render={({ field: { ref, ...rest }, fieldState }) => (
         <ControlledUploader
           height={height}
           width={width}
-          {...field}
+          {...rest}
           {...fieldState}
           accept={accept}
           maxsize={maxsize}
@@ -84,105 +84,98 @@ const FileUploader = ({
   );
 };
 
-const ControlledUploader = forwardRef(
-  (
-    {
-      error,
-      value,
-      onBlur,
-      onChange,
-      disabled,
-      accept,
-      maxsize,
-      height,
-      width,
-    },
-    ref
-  ) => {
-    const { user } = useAuth();
-    const { mutate, isPending } = useMutation({
-      mutationFn: (data) => postImage("/upload_image", data),
-    });
-    const { palette } = useTheme();
+const ControlledUploader = ({
+  error,
+  value,
+  onChange,
+  disabled,
+  accept,
+  maxsize,
+  height,
+  width,
+}) => {
+  const { user } = useAuth();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data) => postImage("/upload_image", data),
+  });
+  const { palette } = useTheme();
 
-    const onDrop = async (droppedFiles) => {
-      if (bToMb(droppedFiles[0].size) >= kbToMb(maxsize)) {
-        return toast.error(
-          `Maximum image size allowed ${Math.round(kbToMb(maxsize))}mb`
-        );
-      }
-
-      if (!accept.includes(getFileExtention(droppedFiles[0].name))) {
-        return toast.error(`Allowed image types ${accept}`);
-      }
-
-      const payload = new FormData();
-      payload.append("userId", user._id);
-      payload.append("saveAsProfile", false);
-      payload.append("image", droppedFiles[0]);
-
-      mutate(payload, {
-        onSuccess: (response) => {
-          const { imageUrl } = response.data ?? {};
-          onChange(imageUrl);
-        },
-        onError: (_err) => {
-          toast.error("Image failed to upload");
-        },
-      });
-    };
-
-    const { getInputProps, open } = useDropzone({
-      onDrop,
-      accept: { "image/*": accept },
-      multiple: false,
-    });
-
-    const renderImage = (imageValue) => {
-      return (
-        <ImageStyledBox>
-          {imageValue ? (
-            <ImageComponent
-              className="imageWrapper"
-              src={imageValue}
-              alt="Profile Pic"
-            />
-          ) : (
-            <Icon
-              style={{ color: palette.grey[300] }}
-              fontSize={600}
-              icon="et:profile-male"
-            />
-          )}
-        </ImageStyledBox>
+  const onDrop = async (droppedFiles) => {
+    if (bToMb(droppedFiles[0].size) >= kbToMb(maxsize)) {
+      return toast.error(
+        `Maximum image size allowed ${Math.round(kbToMb(maxsize))}mb`
       );
-    };
+    }
 
-    const isError = !!error;
+    if (!accept.includes(getFileExtention(droppedFiles[0].name))) {
+      return toast.error(`Allowed image types ${accept}`);
+    }
 
+    const payload = new FormData();
+    payload.append("userId", user._id);
+    payload.append("saveAsProfile", false);
+    payload.append("image", droppedFiles[0]);
+
+    mutate(payload, {
+      onSuccess: (response) => {
+        const { imageUrl } = response.data ?? {};
+        onChange(imageUrl);
+      },
+      onError: (_err) => {
+        toast.error("Image failed to upload");
+      },
+    });
+  };
+
+  const { open } = useDropzone({
+    onDrop,
+    accept: { "image/*": accept },
+    multiple: false,
+  });
+
+  const renderImage = (imageValue) => {
     return (
-      <Box height={height} width={width}>
-        <StyledBox error={isError?.toString()} disabled={disabled}>
-          {isPending ? <CircularProgress /> : renderImage(value)}
-          <IconButton
-            onClick={open}
-            sx={{ position: "absolute", bottom: -5, right: -5 }}
-          >
-            <input ref={ref} {...getInputProps()} onBlur={onBlur} />
-            <Icon
-              style={{
-                backgroundColor: "white",
-                borderRadius: "50%",
-                padding: "4px",
-              }}
-              icon="solar:camera-bold"
-              fontSize={45}
-            />
-          </IconButton>
-        </StyledBox>
-      </Box>
+      <ImageStyledBox>
+        {imageValue ? (
+          <ImageComponent
+            className="imageWrapper"
+            src={imageValue}
+            alt="Profile Pic"
+          />
+        ) : (
+          <Icon
+            style={{ color: palette.grey[300] }}
+            fontSize={600}
+            icon="et:profile-male"
+          />
+        )}
+      </ImageStyledBox>
     );
-  }
-);
+  };
+
+  const isError = !!error;
+
+  return (
+    <Box height={height} width={width}>
+      <StyledBox error={isError?.toString()} disabled={disabled}>
+        {isPending ? <CircularProgress /> : renderImage(value)}
+        <IconButton
+          onClick={open}
+          sx={{ position: "absolute", bottom: -5, right: -5 }}
+        >
+          <Icon
+            style={{
+              backgroundColor: "white",
+              borderRadius: "50%",
+              padding: "4px",
+            }}
+            icon="solar:camera-bold"
+            fontSize={45}
+          />
+        </IconButton>
+      </StyledBox>
+    </Box>
+  );
+};
 
 export default FileUploader;

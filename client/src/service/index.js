@@ -9,4 +9,6 @@ export const get = async (endPoint) => await axiosInstance.get(endPoint);
 
 export const post = async (endPoint, payload) => await axiosInstance.post(endPoint, payload);
 
+export const put = async (endPoint, payload) => await axiosInstance.put(endPoint, payload)
+
 export const postImage = async (endPoint, payload) => await axiosInstance.post(endPoint, payload)

@@ -15,26 +15,25 @@ const CreateCompany = () => {
     twitter: "",
     linkedIn: "",
     facebook: "",
+    portfolioSite: "",
     industryType: "",
   };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data) => post("/register_company", data),
+    mutationFn: (data) => post("/create_company", data),
+    onSuccess: (res) => {
+      toast.success(res?.data?.message);
+    },
   });
 
   const onSubmit = (data) => {
-    const { companyName, newPassword, email, confirmPassword, ...rest } = data;
+    const { companyName, email, ...rest } = data;
     const payload = {
       name: companyName,
-      password: newPassword,
       ...rest,
       userId: user._id,
     };
-    mutate(payload, {
-      onSuccess: (res) => {
-        toast.success(res?.data?.message);
-      },
-    });
+    mutate(payload);
   };
   return (
     <CompanyForm

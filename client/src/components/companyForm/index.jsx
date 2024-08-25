@@ -18,18 +18,13 @@ const CompanyForm = ({
   defaultValues,
   onSubmit,
   actionName = "Create",
+  disableAction,
 }) => {
   const navigate = useNavigate();
   const formMethods = useForm({
-    defaultValues,
+    values: defaultValues,
     resolver: yupResolver(onboardingValidations),
   });
-
-  useEffect(() => {
-    if (defaultValues) {
-      formMethods.reset(defaultValues);
-    }
-  }, [defaultValues]);
 
   const handleClick = (clickFrom) => {
     if (clickFrom === "EMPOLYEE" && employeesCount > 0) {
@@ -90,7 +85,7 @@ const CompanyForm = ({
               <FormSubHeader label="Company Information" />
               <Stack direction="row" spacing={2}>
                 <CustomInput label="Company Name" name="companyName" required />
-                <CustomInput label="Email" name="email" type="email" required />
+                <CustomInput disabled label="Email" name="email" type="email" />
               </Stack>
 
               <Stack direction="row" spacing={2}>
@@ -141,7 +136,9 @@ const CompanyForm = ({
                   flexGrow: 1,
                 }}
               >
-                <CustomButton loading={isPending}>{actionName}</CustomButton>
+                <CustomButton disabled={disableAction} loading={isPending}>
+                  {actionName}
+                </CustomButton>
               </Box>
             </Stack>
           </Paper>
