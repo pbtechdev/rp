@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../../models/User.js';
 import Team from '../../models/Team.js';
+import Company from '../../models/Company.js';
 import bcrypt from 'bcrypt';
 
 /* CREATE USER */
@@ -11,9 +12,11 @@ export const createUser = async (req, res, next) => {
 
     try {
         const {
-            name, email, password, role, profilePic, joiningDate, totalYearsExperience, employeeId,
+            name, email, role, profilePic, joiningDate, totalYearsExperience, employeeId,
             position, teamId, personalInfo, paymentInfo, linkedCompanyId
         } = req.body;
+        const personalInfomartion = { ...personalInfo, gender: personalInfo.gender ? personalInfo.gender : null }
+        const password = 'Test@1234'// todo:need to remove this default password
 
         // Check if email already exists
         const existingUser = await User.findOne({ email }).session(session);
@@ -49,7 +52,7 @@ export const createUser = async (req, res, next) => {
             employeeId,
             position,
             teamId,
-            personalInfo,
+            personalInfo: personalInfomartion,
             paymentInfo,
             linkedCompanyId
         });
@@ -66,7 +69,7 @@ export const createUser = async (req, res, next) => {
         await session.commitTransaction();
         session.endSession(); // End the session
 
-        return res.status(201).json(user);
+        return res.status(201).json({ message: 'User added successfully.', user });
 
     } catch (err) {
         // Rollback the transaction and end the session if an error occurs

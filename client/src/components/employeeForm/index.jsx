@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Paper, Stack } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import CustomInput from "../customInput";
@@ -7,77 +7,79 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { employeeValidations } from "./validations";
 import FileUploader from "../fileUploader";
 import { FormSubHeader } from "../formSubHeader";
-import { useNavigate } from "react-router-dom";
 import CustomDatePicker from "../customDatePicker";
 import CustomAutocomplete from "../customAutoComplete";
-import CustomIconAutocomplete from "../customIconAutoComplete";
+import { useQuery } from "@tanstack/react-query";
+import { get } from "../../service";
+import { useAuth } from "../auth";
+import CreateTeamDialog from "./CreateTeamDialog";
+
+const roleOptions = [
+  { label: "Manager", value: "MANAGER" },
+  { label: "HR", value: "HR" },
+  { label: "Team Lead", value: "LEAD" },
+  { label: "Employee", value: "EMPLOYEE" },
+];
+
+const genderOptions = [
+  { label: "Male", value: "MALE" },
+  { label: "Female", value: "FEMALE" },
+  { label: "Others", value: "OTHERS" },
+];
 
 const EmployeeForm = ({
   isPending,
   defaultValues,
   onSubmit,
   actionName = "Create",
+  isEmployeeCreatePage,
 }) => {
-  const navigate = useNavigate();
+  const { user } = useAuth();
   const formMethods = useForm({
-    defaultValues,
+    values: defaultValues,
     resolver: yupResolver(employeeValidations),
   });
 
-  const { control, formState: { errors } } = formMethods;
-  const [teamValue, setTeamValue] = useState(defaultValues?.team || "");
+  const linkedCompanyId =
+    user?.role === "OWNER" ? user?._id : user?.linkedCompanyId;
 
-  const roleOptions = [
-    { title: "Owner", value: "OWNER" },
-    { title: "Manager", value: "MANAGER" },
-    { title: "HR", value: "HR" },
-    { title: "Team Lead", value: "LEAD" },
-    { title: "Employee", value: "EMPLOYEE" },
-  ];
+  const { data } = useQuery({
+    queryKey: ["GET_TEAMS"],
+    queryFn: () => get(`/get_teams`, { params: { linkedCompanyId } }),
+  });
 
-  const genderOptions = [
-    { title: "Male", value: "MALE" },
-    { title: "Female", value: "FEMALE" },
-    { title: "Others", value: "OTHERS" },
-  ];
-
-  const teamOptions = [
-    { title: "FrontEnd", value: "frontEnd" },
-    { title: "BackEnd", value: "backeEnd" },
-    { title: "Others", value: "OTHERS" },
-  ];
-
-  useEffect(() => {
-    if (defaultValues) {
-      formMethods.reset(defaultValues);
-    }
-  }, [defaultValues]);
+  const teamOptions = data?.data?.map((item) => ({
+    value: item._id,
+    label: item.name,
+  }));
 
   return (
     <FormProvider {...formMethods}>
       <Box sx={{ p: 1 }}>
         <Stack sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
-          <Paper
-            variant="outlined"
-            sx={{
-              minHeight: "310px",
-              position: "relative",
-              height: "20%",
-              p: 2,
-              display: "flex",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <FileUploader
-              height={180}
-              width={180}
-              maxSize={10000}
-              accept={[".png", ".jpg", ".jpeg"]}
-              name="avatar"
-            />
-          </Paper>
+          {!isEmployeeCreatePage && (
+            <Paper
+              variant="outlined"
+              sx={{
+                minHeight: "250px",
+                position: "relative",
+                height: "20%",
+                p: 2,
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <FileUploader
+                height={180}
+                width={180}
+                maxSize={10000}
+                accept={[".png", ".jpg", ".jpeg"]}
+                name="profilePic"
+              />
+            </Paper>
+          )}
           <Paper
             variant="outlined"
             component="form"
@@ -95,57 +97,39 @@ const EmployeeForm = ({
               </Stack>
               <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
                 <CustomInput
-                  label="Position"
-                  name="position"
-                  type="text"
-                  required
-                />
-                <Box width="100%">
-                  <CustomIconAutocomplete
-                    label="Team"
-                    name="team"
-                    options={teamOptions}
-                    control={control}
-                    value={teamValue}
-                    onChange={(newValue) => setTeamValue(newValue)}
-                    iconColor="primary.main"
-                    required
-                    error={!!formMethods.formState.errors.team}
-                    helperText={formMethods.formState.errors.team?.message}
-                  />
-                </Box>
-              </Stack>
-              <Stack direction="row" spacing={2}>
-                <CustomInput
                   label="Employee ID"
                   name="employeeId"
                   type="number"
                   required
                 />
+                <Box width="100%">
+                  <CustomAutocomplete
+                    label="Team"
+                    name="teamId"
+                    required
+                    options={teamOptions}
+                    placeholder="Select a team"
+                  />
+                  <CreateTeamDialog />
+                </Box>
+              </Stack>
+              <Stack direction="row" spacing={2}>
                 <CustomAutocomplete
                   name="role"
-                  control={control}
                   options={roleOptions}
                   label="Role"
                   placeholder="Select a role"
                   required
                 />
+                <CustomInput label="Position" name="position" type="text" />
               </Stack>
               <Stack direction="row" spacing={2}>
                 <CustomInput
                   label="Total Experience"
-                  name="yearsOfExperience"
+                  name="totalYearsExperience"
                   type="number"
-                  required
                 />
-                <CustomDatePicker
-                  label="Joining Date"
-                  name="joiningDate"
-                  control={control}
-                  rules={{ validate: "" }}
-                  defaultValue=""
-                  required
-                />
+                <CustomDatePicker label="Joining Date" name="joiningDate" />
               </Stack>
 
               {/* Payment Details */}
@@ -153,28 +137,34 @@ const EmployeeForm = ({
               <Stack direction="row" spacing={2}>
                 <CustomInput
                   label="Salary"
-                  name="salary"
+                  name="paymentInfo.salary"
                   type="number"
-                  required
                 />
                 <CustomInput
                   label="Variable Pay"
-                  name="variable"
+                  name="paymentInfo.variables"
                   type="number"
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
-                <CustomInput label="PAN No." name="pan" type="text" required />
+                <CustomInput
+                  label="PAN No."
+                  name="paymentInfo.pan"
+                  type="text"
+                />
                 <CustomInput
                   label="ESIC No."
-                  name="esicNo"
+                  name="paymentInfo.esiNo"
                   type="number"
-                  required
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
-                <CustomInput label="UAN" name="uan" type="number" required />
-                <CustomInput label="Bonus" name="bonus" type="number" />
+                <CustomInput label="UAN" name="paymentInfo.uan" type="number" />
+                <CustomInput
+                  label="Bonus"
+                  name="paymentInfo.bonus"
+                  type="number"
+                />
               </Stack>
 
               {/* Personal Information */}
@@ -182,41 +172,32 @@ const EmployeeForm = ({
               <Stack direction="row" spacing={2}>
                 <CustomInput
                   label="Personal Email"
-                  name="personalEmail"
+                  name="personalInfo.personalEmail"
                   type="email"
-                  required
                 />
                 <CustomInput
                   label="Mobile Number"
-                  name="mobileNumber"
+                  name="personalInfo.mobileNumber"
                   type="number"
-                  required
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
                 <CustomAutocomplete
                   label="Gender"
-                  required
-                  name="gender"
+                  name="personalInfo.gender"
                   options={genderOptions}
                 />
                 <CustomDatePicker
                   label="Date of Birth"
-                  name="dateOfBirth"
-                  control={control}
-                  rules={{ validate: "" }}
-                  required
-                  defaultValue=""
-                  type="date"
+                  name="personalInfo.dateOfBirth"
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
                 <CustomInput
                   label="Address"
-                  name="address"
+                  name="personalInfo.address"
                   fullWidth
                   multiline
-                  required
                   rows={4}
                 />
               </Stack>

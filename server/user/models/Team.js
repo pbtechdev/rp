@@ -14,7 +14,6 @@ const TeamSchema = new Schema({
     },
     teamLeadName: {
         type: String,
-        minlength: 2,
         maxlength: 50
     },
     linkedCompanyId: {

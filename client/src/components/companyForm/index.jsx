@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Paper, Stack } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import CustomInput from "../customInput";

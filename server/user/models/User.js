@@ -3,34 +3,28 @@ import { Schema, model } from "mongoose";
 const PaymentInfo = new Schema({
     salary: {
         type: Number,
-        min: 0,
         default: 0
     },
     bonus: {
         type: Number,
-        min: 0,
         default: 0
     },
     variables: {
         type: Number,
-        min: 0,
         default: 0
     },
     pan: {
         type: String,
-        minlength: 2,
         maxlength: 20,
         trim: true
     },
     esiNo: {
         type: String,
-        minlength: 2,
         maxlength: 20,
         trim: true
     },
     uan: {
         type: String,
-        minlength: 2,
         maxlength: 20,
         trim: true
     }
@@ -39,19 +33,16 @@ const PaymentInfo = new Schema({
 const PersonalInfo = new Schema({
     mobileNumber: {
         type: String,
-        minlength: 10,
         maxlength: 15,
         trim: true
     },
     address: {
         type: String,
-        minlength: 2,
         maxlength: 2000,
         trim: true
     },
     personalEmail: {
         type: String,
-        minlength: 5,
         maxlength: 255,
         match: [/.+@.+\..+/, 'Invalid email address'],
         trim: true
@@ -61,6 +52,7 @@ const PersonalInfo = new Schema({
     },
     gender: {
         type: String,
+        default: null,
         enum: ['MALE', 'FEMALE', 'OTHERS']
     }
 });
@@ -82,13 +74,13 @@ const UserSchema = new Schema({
         minlength: 5,
         maxlength: 255,
         unique: true,
+        required: true,
         trim: true,
         immutable: true,
         match: [/.+@.+\..+/, 'Invalid email address']
     },
     password: {
         type: String,
-        required: true,
         minlength: 6,
         maxlength: 2000,
         trim: true

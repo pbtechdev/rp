@@ -16,6 +16,14 @@ export const createTeam = async (req, res, next) => {
             return res.status(400).json({ message: 'Company with the given ID does not exist' });
         }
 
+        const isNameAlreadyExit = await Team.find({ name, linkedCompanyId });
+
+
+        if (isNameAlreadyExit.length > 0) {
+            await session.abortTransaction();
+            return res.status(400).json({ message: 'This team already exists within your organization.' });
+        }
+
         const newTeam = new Team({
             name,
             teamLeadName,
@@ -31,7 +39,7 @@ export const createTeam = async (req, res, next) => {
         await session.commitTransaction();
         session.endSession(); // End the session
 
-        return res.status(201).json(newTeam);
+        return res.status(201).json({ message: "Team created successfully", team: newTeam });
 
     } catch (err) {
         // Rollback the transaction and end the session if an error occurs

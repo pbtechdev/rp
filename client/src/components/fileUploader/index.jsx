@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import {
@@ -95,6 +95,7 @@ const ControlledUploader = ({
   width,
 }) => {
   const { user } = useAuth();
+  const isOwner = user?.role === "OWNER";
   const { mutate, isPending } = useMutation({
     mutationFn: (data) => postImage("/upload_image", data),
   });
@@ -112,8 +113,9 @@ const ControlledUploader = ({
     }
 
     const payload = new FormData();
-    payload.append("userId", user._id);
-    payload.append("saveAsProfile", false);
+    const userId = isOwner ? user?._id : user?.linkedCompanyId;
+    payload.append("userId", userId);
+    payload.append("saveAsProfile", !isOwner);
     payload.append("image", droppedFiles[0]);
 
     mutate(payload, {

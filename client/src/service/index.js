@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
     timeout: 10000,
 })
 
-export const get = async (endPoint) => await axiosInstance.get(endPoint);
+export const get = async (endPoint, payload) => await axiosInstance.get(endPoint, payload);
 
 export const post = async (endPoint, payload) => await axiosInstance.post(endPoint, payload);
 

@@ -30,7 +30,6 @@ import {
     getTeamsValidation,
     getCompanyValidation,
     loginValidation,
-    uploadImageValidation,
     updateCompanyValidation
 } from './middlewares/validations.js';
 import { validateReq } from './middlewares/validator.mw.js'
@@ -68,7 +67,7 @@ app.post('/create_user', userQueryValidation, validateReq, createUser);
 app.get('/get_users', createUserValidation, validateReq, getUsers)
 
 app.post('/create_team', createTeamValidation, validateReq, createTeam)
-app.post('/get_teams', getTeamsValidation, validateReq, getTeams)
+app.get('/get_teams', getTeamsValidation, validateReq, getTeams)
 
 
 

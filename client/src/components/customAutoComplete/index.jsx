@@ -37,7 +37,7 @@ const CustomAutocomplete = ({
             <Autocomplete
               value={
                 value !== undefined
-                  ? options.find((option) => value === option.value) ?? null
+                  ? options?.find((option) => value === option.value) ?? null
                   : null
               }
               onChange={(_event, newValue) => {
@@ -47,7 +47,7 @@ const CustomAutocomplete = ({
               isOptionEqualToValue={(option, selectedOption) =>
                 option.value === selectedOption.value
               }
-              getOptionLabel={(option) => option.title}
+              getOptionLabel={(option) => option.label}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -58,8 +58,8 @@ const CustomAutocomplete = ({
                   helperText={error?.message}
                   placeholder={placeholder}
                   size="small"
-                  sx={{ 
-                    width: inputWidth, 
+                  sx={{
+                    width: inputWidth,
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "4px",
                     },

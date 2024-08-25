@@ -9,20 +9,40 @@ const CreateEmployee = () => {
   const { user } = useAuth();
 
   const defaultValues = {
+    name: "",
     email: "",
-    employeeName: "",
     employeeId: "",
+    teamId: "",
     role: "",
+    position: "",
+    totalYearsExperience: "",
+    joiningDate: "",
+    paymentInfo: {
+      salary: "",
+      variables: "",
+      pan: "",
+      esiNo: "",
+      uan: "",
+      bonus: "",
+    },
+    personalInfo: {
+      personalEmail: "",
+      mobileNumber: "",
+      gender: "",
+      dateOfBirth: "",
+      address: "",
+    },
   };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data) => post("/register_employee", data),
+    mutationFn: (data) => post("/create_user", data),
   });
 
   const onSubmit = (data) => {
     const payload = {
       ...data,
-      userId: user._id,
+      linkedCompanyId:
+        user?.role === "OWNER" ? user?._id : user?.linkedCompanyId,
     };
     mutate(payload, {
       onSuccess: (res) => {
@@ -36,6 +56,7 @@ const CreateEmployee = () => {
       isPending={isPending}
       defaultValues={defaultValues}
       onSubmit={onSubmit}
+      isEmployeeCreatePage
     />
   );
 };

@@ -19,6 +19,7 @@ export const uploadImage = async (req, res, next) => {
         await company.save();
         return res.status(200).json({ imageUrl: absolutePath });// todo:should remove the local host once real storage connected
     } catch (error) {
+        console.log(error)
         return next(500)
     }
 
