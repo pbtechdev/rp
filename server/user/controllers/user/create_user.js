@@ -19,8 +19,8 @@ export const createUser = async (req, res, next) => {
         const password = 'Test@1234'// todo:need to remove this default password
 
         // Check if email already exists
-        const existingUser = await User.findOne({ email }).session(session);
-        if (existingUser) {
+        const existingUser = await User.find({ email, linkedCompanyId }).session(session);
+        if (existingUser.length > 0) {
             await session.abortTransaction(); // Rollback transaction if email is already in use
             return res.status(400).json({ message: 'Email already in use' });
         }

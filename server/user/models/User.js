@@ -107,7 +107,6 @@ const UserSchema = new Schema({
     employeeId: {
         type: Number,
         min: 1,
-        unique: true
     },
     position: {
         type: String,
