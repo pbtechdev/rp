@@ -28,7 +28,7 @@ const CompanyForm = ({
 
   const handleClick = (clickFrom) => {
     if (clickFrom === "EMPOLYEE" && employeesCount > 0) {
-      navigate("/employee-list");
+      navigate("/employee-listing-page");
     }
     if (clickFrom === "TEAMS" && teamsCount > 0) {
       navigate("/teams-list");
@@ -69,7 +69,7 @@ const CompanyForm = ({
               <Stats
                 handleClick={() => handleClick("TEAMS")}
                 label="Teams"
-                count={employeesCount}
+                count={teamsCount}
               />
             </Box>
           </Paper>

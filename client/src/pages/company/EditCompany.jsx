@@ -30,6 +30,7 @@ const EditCompany = () => {
     industryType,
     employeesCount,
     portfolioSite,
+    teamsCount
   } = data?.data ?? {};
 
   const defaultValues = {
@@ -55,6 +56,7 @@ const EditCompany = () => {
   return (
     <CompanyForm
       employeesCount={employeesCount}
+      teamsCount={teamsCount}
       defaultValues={defaultValues}
       onSubmit={onSubmit}
       actionName="Update"
