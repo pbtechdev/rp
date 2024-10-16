@@ -10,7 +10,8 @@ import AuthProvider from "../components/auth";
 import EditCompany from "../pages/company/EditCompany";
 import CreateEmployee from "../pages/employee/CreateEmployee";
 import Home from "../pages/home";
-import ListOfEmployee from "../pages/employee/ListOfEmployee";
+import EmployeeStatus from "../pages/employee/EmployeeStatus";
+import UsersList from "../pages/users/usersList";
 
 // ----------------------------------------------------------------------
 
@@ -41,8 +42,12 @@ const Router = () => {
           element: <CreateEmployee />,
         },
         {
-          path: "employee-listing-page",
-          element: <ListOfEmployee />,
+          path: "employee-status-page",
+          element: <EmployeeStatus />,
+        },
+        {
+          path: "users-list",
+          element: <UsersList />,
         },
       ],
     },

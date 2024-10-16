@@ -3,36 +3,42 @@ import EmployeeForm from "../../components/employeeForm";
 import { useMutation } from "@tanstack/react-query";
 import { post } from "../../service";
 import { useAuth } from "../../components/auth";
+import { useForm, FormProvider } from "react-hook-form"; 
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 
 const CreateEmployee = () => {
   const { user } = useAuth();
+  const location = useLocation(); 
+  const userData = location.state || {}; 
 
-  const defaultValues = {
-    name: "",
-    email: "",
-    employeeId: "",
-    teamId: "",
-    role: "",
-    position: "",
-    totalYearsExperience: "",
-    joiningDate: "",
-    paymentInfo: {
-      salary: "",
-      variables: "",
-      pan: "",
-      esiNo: "",
-      uan: "",
-      bonus: "",
+  const formMethods = useForm({
+    defaultValues: {
+      name: userData.name || "",
+      email: userData.email || "",
+      employeeId: "",
+      teamId: "",
+      role: userData.role || "",
+      position: "",
+      totalYearsExperience: "",
+      joiningDate: "",
+      paymentInfo: {
+        salary: "",
+        variables: "",
+        pan: "",
+        esiNo: "",
+        uan: "",
+        bonus: "",
+      },
+      personalInfo: {
+        personalEmail: "",
+        mobileNumber: "",
+        gender: "",
+        dateOfBirth: "",
+        address: "",
+      },
     },
-    personalInfo: {
-      personalEmail: "",
-      mobileNumber: "",
-      gender: "",
-      dateOfBirth: "",
-      address: "",
-    },
-  };
+  });
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data) => post("/create_user", data),
@@ -52,12 +58,13 @@ const CreateEmployee = () => {
   };
 
   return (
-    <EmployeeForm
-      isPending={isPending}
-      defaultValues={defaultValues}
-      onSubmit={onSubmit}
-      isEmployeeCreatePage
-    />
+    <FormProvider {...formMethods}>
+      <EmployeeForm
+        isPending={isPending}
+        onSubmit={onSubmit}
+        isEmployeeCreatePage
+      />
+    </FormProvider>
   );
 };
 

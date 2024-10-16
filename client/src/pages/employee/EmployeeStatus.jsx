@@ -5,17 +5,37 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import PageHeader from "../../components/pageHeader";
 import CustomDataGrid from "../../components/customDataGrid";
 
-const ListOfEmployee = () => {
+const EmployeeStatus = () => {
+  const columStyles = {
+    flex: 0.5,
+    sortable: false,
+    resizable: false,
+    disableColumnMenu: true,
+    headerAlign: "center",
+    align: "center",
+    headerClassName: "header-cell",
+  };
   const columns = [
     {
       field: "allEmployees",
       headerName: "All Employees",
-      flex: 0.8,
-      resizable: false,
+      ...columStyles,
     },
-    { field: "interns", headerName: "Interns", flex: 1, resizable: false },
-    { field: "inOffice", headerName: "In Office", flex: 0.5, resizable: false },
-    { field: "wfh", headerName: "WFH", flex: 0.5, resizable: false },
+    {
+      field: "interns",
+      headerName: "Interns",
+      ...columStyles,
+    },
+    {
+      field: "inOffice",
+      headerName: "In Office",
+      ...columStyles,
+    },
+    {
+      field: "wfh",
+      headerName: "WFH",
+      ...columStyles,
+    },
   ];
 
   const employeeList = [
@@ -30,7 +50,7 @@ const ListOfEmployee = () => {
     { id: 9, allEmployees: 10, interns: 20, inOffice: 30, wfh: 40 },
     { id: 10, allEmployees: 10, interns: 20, inOffice: 30, wfh: 40 },
     { id: 11, allEmployees: 10, interns: 20, inOffice: 30, wfh: 40 },
-    { id:12, allEmployees: 10, interns: 20, inOffice: 30, wfh: 40 },
+    { id: 12, allEmployees: 10, interns: 20, inOffice: 30, wfh: 40 },
     { id: 13, allEmployees: 10, interns: 20, inOffice: 30, wfh: 40 },
     { id: 14, allEmployees: 10, interns: 20, inOffice: 30, wfh: 40 },
     { id: 15, allEmployees: 10, interns: 20, inOffice: 30, wfh: 40 },
@@ -48,7 +68,13 @@ const ListOfEmployee = () => {
   return (
     <Box>
       <PageHeader header="All Employees" />
-      <Paper>
+      <Paper
+        sx={{
+          "& .header-cell": {
+            backgroundColor: (theme) => theme.palette.primary.light,
+          },
+        }}
+      >
         <CustomDataGrid
           rows={employeeList}
           columns={columns}
@@ -62,4 +88,4 @@ const ListOfEmployee = () => {
   );
 };
 
-export default ListOfEmployee;
+export default EmployeeStatus;
